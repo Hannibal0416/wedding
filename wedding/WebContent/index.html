@@ -1,0 +1,226 @@
+<html>
+<meta charset="utf-8" />
+<head>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="css/jquery.fullpage.min.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fancybox.min.css">
+
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jquery.fullpage.min.js"></script>
+<script type="text/javascript"
+	src="js/jquery.fullpage.extensions.min.js"></script>
+
+<script type="text/javascript" src="js/rellax.min.js"></script>
+<script type="text/javascript" src="js/anime.min.js"></script>
+<script type="text/javascript" src="js/progressbar.min.js"></script>
+<script type="text/javascript" src="js/jquery.fancybox.min.js"></script>
+<style type="text/css">
+/* #section1, #section2 { */
+/*     background-size: cover; */
+/*     background-repeat: no-repeat; */
+/*     background-position: center center; */
+/*   	background-image: url(img/se0.jpg);  */
+/*   	opacity: 0.2;  */
+/*   	filter: alpha(opacity=20); */
+/* 	padding: 30% 0 0 0; */
+/* } */
+
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  	background-image: url(img/se0.jpg); 
+  	background-attachment: fixed;
+/*   	opacity: 0.2;  */
+/*   	filter: alpha(opacity=20); */
+/* 	padding: 30% 0 0 0; */
+}
+.center {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    overflow: auto;
+}
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+.col-right{
+    float: right;
+    margin: 0 auto;
+}
+
+.col-left{
+    float: left;
+    margin: 0 auto;
+}
+
+</style>
+<script type="text/javascript">
+
+	var components = {
+			section1 : {
+				svg_path1: null,
+				svg_date1 : null
+			},
+			section2 : {
+				section_2: null,
+				section_2_2: null
+			}
+	
+	}
+
+	$(document).ready( function() {
+				// var bar1 = new ProgressBar.Path('#ss', {
+				// 				  easing: 'easeInOut',
+				// 				  duration: 14000
+				// 				});
+				var title = document.getElementById('title');
+				
+				title.addEventListener('load', function() {
+					components.section1.svg_path1 = new ProgressBar.Path(title.contentDocument
+							.querySelector('#path_title'), {
+						duration : 10000
+					})
+					components.section1.svg_date1 = new ProgressBar.Path(title.contentDocument
+							.querySelector('#path_date'), {
+						duration : 10000
+					})
+					components.section1.svg_path1.set(0);
+					components.section1.svg_path1.animate(1.0);
+					components.section1.svg_date1.set(0);
+					components.section1.svg_date1.animate(1.0);
+				});
+
+				components.section2.section_2 = anime({
+					targets : document.getElementById('section_2'),
+					translateX : [ {
+						value : 300,
+						duration : 2000
+					}, {
+						value : 0,
+						duration : 1000
+					} ],
+					rotate : '5turn',
+					// 				  backgroundColor: '#FFF',
+					duration : 2000,
+					loop : false
+				});
+				
+				components.section2.section_2_2 = anime({
+					targets : document.getElementById('section_2_2'),
+					translateX : [ {
+						value : -300,
+						duration : 2000
+					}, {
+						value : 0,
+						duration : 1000
+					} ],
+					rotate : '5turn',
+					// 				  backgroundColor: '#FFF',
+					duration : 2000,
+					loop : false
+				});
+				
+				var svgAttributes = anime({
+					  targets: document.querySelector('#svgAttributes polygon'),
+					  points: '64 128 8.574 96 8.574 32 64 0 119.426 32 119.426 96',
+					  easing: 'easeInOutExpo',
+					  loop : true
+					});
+				
+
+			});
+	
+	$(document).ready( function() {
+		var a = $('#fullpage').fullpage({
+//				scrollingSpeed: 700,
+// 			autoScrolling: false,
+// 			resetSliders: false,
+//				fadingEffect: true,
+// 				scrollOverflowReset: false,
+// 			scrollBar: true,
+			verticalCentered: true,
+			navigation: true,
+			navigationPosition: 'right',
+			navigationTooltips: ['First', 'Second', 'Third'],
+			afterLoad : function(anchorLink, index) {
+
+				switch (index) {
+				case 1:
+					if ( components.section1.svg_path1 != null ) {
+						components.section1.svg_path1.set(0), components.section1.svg_path1.animate(1.0);
+						components.section1.svg_date1.set(0), components.section1.svg_date1.animate(1.0);
+					}
+					
+					break;
+				case 2:
+					components.section2.section_2.restart();
+					components.section2.section_2_2.restart();
+					break;
+				}
+
+			}
+		});
+		console.log(a);
+	});
+</script>
+
+</head>
+
+<body>
+
+
+	<div id="fullpage">
+		<div class="section" id="section1">
+			<div class="col-xs-12 col-sm-6 col-lg-8">
+<!-- 				<img src="img/w1.png" alt="Image description." id="section_1" /> -->
+				<object class="center" type="image/svg+xml" id="title" data="svg/title.svg" ></object>
+
+			</div>
+
+		</div>
+		<div class="section" id="section2">
+			
+			<div class="row">
+			    <div class="col-xs-2 col-sm-2 col-lg-2 col-centered">
+			    	
+					<div id="svgAttributes"> 
+						<svg width="128" height="128" viewBox="0 0 128 128">
+					  		<polygon points="64 69.32220678462356 8.574 99.95402919241081 62.815372461491506 67.26994039630445 64 3.954029192410811 65.1846275385085 67.26994039630445 119.426 99.95402919241081" fill="currentColor"></polygon>
+							<text x="20" y="70" font-family="Verdana" font-size="35" fill="blue">Hello</text>
+						</svg> 
+					</div>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4 col-sm-4 col-lg-4 col-left">
+					<img src="svg/section_2.svg" alt="Image description." id="section_2" />
+				</div>
+				<div class="col-xs-4 col-sm-2 col-lg-4">
+			    	
+					<div id="svgAttributes"> 
+						<svg width="128" height="128" viewBox="0 0 128 128">
+					  		<polygon points="64 69.32220678462356 8.574 99.95402919241081 62.815372461491506 67.26994039630445 64 3.954029192410811 65.1846275385085 67.26994039630445 119.426 99.95402919241081" fill="currentColor"></polygon>
+							<text x="20" y="70" font-family="Verdana" font-size="35" fill="blue">Hello</text>
+						</svg> 
+					</div>
+			    </div>
+				<div class="col-xs-4 col-sm-4 col-lg-4 col-right">
+					<img src="svg/section_2.svg" alt="Image description." id="section_2_2" />
+				</div>
+			</div>
+		</div>
+		<div class="section"><input class="text-output" value="11"></div>
+		<div class="section">Some section</div>
+	</div>
+
+</body>
+</html>
