@@ -283,7 +283,7 @@ label {
 	function confirmTo(){
 		params.church = $('input[name=church]:checked').val();
 		params.weddingDinner = $('input[name=wedding-dinner]:checked').val();
-		if(params.church == "false" && params.weddingDinner == "false") {
+		if(params.weddingDinner == "false") {
 			$.fn.fullpage.moveTo(7);
 		} else {
 			$.fn.fullpage.moveTo(6);
@@ -438,7 +438,7 @@ label {
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-lg btn-outline-info">
-							<input type="radio" name="wedding-dinner" autocomplete="off" value="true"/>當然要，那天我肚子很餓!
+							<input type="radio" name="wedding-dinner" autocomplete="off" value="true"/>當然要，我等很久了耶!
 						</label>
 						<label class="btn btn-lg btn-outline-danger">
 							<input type="radio" name="wedding-dinner" autocomplete="off" value="false"/>謝謝邀請，我祝福的心與你們同在~
