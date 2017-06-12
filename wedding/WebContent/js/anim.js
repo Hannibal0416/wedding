@@ -10,7 +10,7 @@ var g_texture;
 var bImagesLoaded=false;
 var nGeneralWindX=Math.sin(Math.random()*360)*3;
 var nGeneralWindY=Math.cos(Math.random()*360)*3;
-var arr_Msg=['h','e','l','l','o'];
+var arr_Msg=null;
 var nMsgIndex=0;
 var arr_ImageLetters=new Array();
 var arr_letters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2'];
@@ -42,7 +42,7 @@ function init(){
 	TEXTURE_HEIGHT=$("#born_canvas_hidden").height();
 	for(i=0;i<NUM_CIRCLES;i++)
 		carray[i]=new Circle(Math.floor(Math.random()*WIDTH),Math.floor(Math.random()*HEIGHT),RADIUS);
-	return setInterval(draw,30)
+	return setInterval(draw,20)
 	
 	
 }
@@ -55,7 +55,7 @@ function setLetter(c){
 	}
 	var nIndex=0;
 	if(nFound>-1){
-		g_texture.fillStyle="#00000000";
+		g_texture.fillStyle="#000000";
 		g_texture.fillRect(0,0,TEXTURE_WIDTH,TEXTURE_HEIGHT);
 		g_texture.drawImage(arr_ImageLetters[nFound],0,0);
 		var imageData=g_texture.getImageData(0,0,TEXTURE_WIDTH,TEXTURE_HEIGHT);
@@ -105,7 +105,7 @@ function clearCircles(){
 }
 
 function startClearCircles(){
-	setInterval(clearCircles,2000)
+	setInterval(clearCircles,1000)
 }
 
 function draw(){
@@ -151,7 +151,7 @@ function draw(){
 	
 	g.globalAlpha=C.alpha;
 	g.beginPath();
-	g.fillStyle = "#FFFFFF";
+	g.fillStyle = "#ff0202";
 	g.arc(C.x, C.y, C.r, 0, Math.PI * 2, true);
 	g.closePath();
 	g.fill();
@@ -164,23 +164,26 @@ function imagesLoaded(){
 	arr_Msg =  sname!= null ?  sname + '您的資料我們已經收到了！謝謝您！' : '您的資料我們已經收到了！謝謝您！' ;
 	arr_letters = arr_Msg;
 	ctx=document.querySelector('#txtCanvas').getContext('2d');
-	ctx.font="100px sans-serif";
+	ctx.font="90px sans-serif";
 	ctx.fillStyle = '#f4b642';
 	for(var i=0;i<arr_Msg.length;i++) {
-		ctx.fillText(arr_Msg[i], 0, 70);
+		
+		ctx.fillText(arr_Msg[i], 0, 80);
 		arr_ImageLetters[i]=new Image();
 		arr_ImageLetters[i].src=ctx.canvas.toDataURL();
 		ctx.clearRect(0, 0, 100, 100);
 	}
-	setTimeout(startClearCircles,1500);
-	setInterval(setNextLetter,2000);
+//	setTimeout(startClearCircles,1500);
+//	setInterval(setNextLetter,2000);
+	setTimeout(startClearCircles,750);
+	setInterval(setNextLetter,1000);
 	return true
 }
 function clear(){
 	g.globalAlpha=.1;
 //	g.fillStyle="rgba(0, 0, 0, 0.01)";
-//	g.fillStyle="#000000";
-//	g.fillRect(0,0,WIDTH,HEIGHT)
+	g.fillStyle="#000000";
+	g.fillRect(0,0,WIDTH,HEIGHT)
 	g.clearRect(0,0,WIDTH,HEIGHT)
 }
 function changeMessage(){
