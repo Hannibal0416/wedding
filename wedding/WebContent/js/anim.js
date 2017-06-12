@@ -161,7 +161,7 @@ function draw(){
 
 }
 function imagesLoaded(){
-	arr_Msg = sname!= null ? sname + '您的資料我們已經收到了！謝謝您！' : '您的資料我們已經收到了！謝謝您！' ;
+	arr_Msg =  sname!= null ?  sname + '您的資料我們已經收到了！謝謝您！' : '您的資料我們已經收到了！謝謝您！' ;
 	arr_letters = arr_Msg;
 	ctx=document.querySelector('#txtCanvas').getContext('2d');
 	ctx.font="100px sans-serif";
@@ -220,8 +220,6 @@ function setGravity(){
 function setFade(){
 	bFade=!bFade
 }
-$(document).ready(function(){
-	 setHighNumCircles();
-     setFade();
-     imagesLoaded();
-});
+//$(document).ready(function(){
+//	init()
+//});

@@ -264,6 +264,9 @@ label {
 				this.innerHTML=sname;
 			});
 		});
+
+		$('#thanks').hide();
+		$('#postInfo').show();
 		
 	});
 	
@@ -348,11 +351,15 @@ label {
 		$.get("https://script.google.com/macros/s/AKfycbyo3xu8-NLPOJQQKQTp36RmyGOMdAzm0KXXfrxTN1Z6lXHndiWh/exec", params, function (data) {
 
 			
-	          alert(data);
-// 	          setHighNumCircles();
-// 	          setGravity();
-// 	          setFade();
-	          init();
+// 	          alert(data);
+			$('#thanks').show();
+	  		  	$('#postInfo').hide();
+				init();
+	          setHighNumCircles();
+	          setGravity();
+	          setFade();
+ 				
+	         
 		});
 		
 	}
