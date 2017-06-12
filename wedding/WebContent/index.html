@@ -1,6 +1,13 @@
 <html>
 <meta charset="utf-8" />
+<meta property="og:title" content="文舜與丞君的婚宴邀請"></meta>
+<meta property="og:type" content="婚宴邀請"></meta>
+<meta property="og:url" content="wedding"></meta>
+<meta property="og:image" content="img/wedding.png"></meta>
+<meta property="og:description" content="文舜與丞君的婚宴邀請"></meta>
+<meta property="og:site_name" content="文舜與丞君的婚宴邀請"></meta>
 <head>
+<title>文舜與丞君的婚宴邀請</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"> -->
@@ -10,9 +17,8 @@
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery.fullpage.min.js"></script>
-<script type="text/javascript"
-	src="js/jquery.fullpage.extensions.min.js"></script>
-
+<script type="text/javascript" src="js/jquery.fullpage.extensions.min.js"></script>
+<script type="text/javascript" src="js/anim.js"></script>
 <script type="text/javascript" src="js/rellax.min.js"></script>
 <script type="text/javascript" src="js/anime.min.js"></script>
 <script type="text/javascript" src="js/progressbar.min.js"></script>
@@ -54,6 +60,10 @@ body {
 /*   	filter: alpha(opacity=20); */
 /* 	padding: 30% 0 0 0; */
 }
+input {
+    font-size: 16px !important;
+}
+
 input[type="text"] , input[type="email"],input[type="number"]
 {
     background-color: rgba(0, 0, 0, 0.5);
@@ -152,7 +162,7 @@ label {
         "childSeats": null,
         "time": new Date().toLocaleString()
       };
-
+	var sname = null;
 	$(document).ready( function() {
 				// var bar1 = new ProgressBar.Path('#ss', {
 				// 				  easing: 'easeInOut',
@@ -242,6 +252,18 @@ label {
 	        	$('#annie').css("background-image", "url('img/annie.png')");
 	        } 
 	    });
+
+	    $('#name').blur(function(){
+	    	sname = $(this).val();
+		    if (sname.length == 3) {
+		    	sname = sname.substring(1,sname.length);			    
+		    } else if (name.length >= 3) {
+		    	sname = sname.substring(2,sname.length);
+			}
+		    $('span[specific-name]').each(function(){
+				this.innerHTML=sname;
+			});
+		});
 		
 	});
 	
@@ -259,22 +281,43 @@ label {
 			navigationPosition: 'right',
 			navigationTooltips: ['一', '二', '三','四','五','六','七'],
 			afterLoad : function(anchorLink, index) {
-
+				
 				switch (index) {
 				case 1:
 					if ( components.section1.svg_path1 != null ) {
 						components.section1.svg_path1.set(0), components.section1.svg_path1.animate(1.0);
 						components.section1.svg_date1.set(0), components.section1.svg_date1.animate(1.0);
 					}
-					
 					break;
 				case 2:
 					components.section2.bride.restart();
 					components.section2.bridegroom.restart();
 					$('#ring').hide();
 					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					params.church = $('input[name=church]:checked').val();
+					params.weddingDinner = $('input[name=wedding-dinner]:checked').val();
+					if (preIndex == 4) {
+						if(params.weddingDinner == "false" && params.church == "false" ) {
+							$.fn.fullpage.moveTo(7);
+						} 
+					}
+					break;
+				case 6:
+					if (preIndex == 5) {
+						if(params.weddingDinner == "false") {
+							$.fn.fullpage.moveTo(7);
+						}
+					}
+					break;
+				case 7:
+					break;	
 				}
-
+				preIndex = index;
 			}
 		});
 		
@@ -303,8 +346,15 @@ label {
 		params.childSeats = $('input[name=child-seats]:checked').val();
 		console.log(params);
 		$.get("https://script.google.com/macros/s/AKfycbyo3xu8-NLPOJQQKQTp36RmyGOMdAzm0KXXfrxTN1Z6lXHndiWh/exec", params, function (data) {
-		          alert(data);
-		      });
+
+			
+	          alert(data);
+// 	          setHighNumCircles();
+// 	          setGravity();
+// 	          setFade();
+	          init();
+		});
+		
 	}
 </script>
 
@@ -315,14 +365,16 @@ label {
 
 	<div id="fullpage">
 		<div class="section" id="section1">
-			<div class="col-xs-12 col-sm-6 col-lg-8">
-<!-- 				<img src="img/w1.png" alt="Image description." id="section_1" /> -->
-<!-- 				<object class="center" type="image/svg+xml" id="title" data="svg/title.svg" ></object> -->
-				<div id="title" class="center" >
+			<div class="row ">
+				<div class="col-xs-12 col-sm-6 col-lg-8">
+	<!-- 				<img src="img/w1.png" alt="Image description." id="section_1" /> -->
+	<!-- 				<object class="center" type="image/svg+xml" id="title" data="svg/title.svg" ></object> -->
+					<div id="title" class="center" >
+					</div>
+					<script type="text/javascript">
+						$( "#title" ).load( "svg/title2.svg" );
+					</script>
 				</div>
-				<script type="text/javascript">
-					$( "#title" ).load( "svg/title2.svg" );
-				</script>
 			</div>
 
 		</div>
@@ -341,7 +393,9 @@ label {
 <!-- 			</div> -->
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12">
-					<h1 class="text-center"><span style="color:red">❤</span>文舜&丞君的婚宴邀請函<span style="color:red">❤</span></h1>
+					<h1 class="text-center">
+						<span style="color:red">❤</span>文舜&丞君的婚宴邀請函<span style="color:red">❤</span>
+					</h1>
 					<h2 class="text-center">
 						時間：2017/8/19 星期六 18:00<br/>
 						地點：板橋囍宴軒<br/>
@@ -363,10 +417,20 @@ label {
 				</div>
 			</div>
 		</div>
-		<div class="section">
+		<div class="section" id="section3">
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-lg-12">
-				    <h1 class="text-center">請問你是文舜或是丞君的朋友啊?</h1>
+				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
+				    <h1 class="text-center">請問您是?</h1> 
+				</div>
+				<div class="col-xs-4 col-sm-4 col-lg-4 text-center"></div>
+				<div class="col-xs-4 col-sm-4 col-lg-4 text-center">
+				    <input type="text" class="form-control input-lg" id="name" placeholder="姓名(是全名哦!)" >
+				</div>
+			</div>
+			<div class="row" style="height:50px;"></div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
+				    <h1>H!&nbsp;<span specific-name></span>請問您是文舜還是丞君的朋友啊?</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -383,54 +447,10 @@ label {
 			</div>
 		</div>
 		
-				<div class="section">
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-lg-12 ">
-				    <h1 class="text-center">留下您的聯絡方式吧!*</h1>
-				</div>
-			</div>
-			<div class="row" style="height:50px;"></div>
-			<div class="row">
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<h2 class="text-right">姓名</h2>
-				</div>
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<input type="text" class="form-control input-lg" id="name" aria-describedby="emailHelp" placeholder="姓名(是全名哦!)" >
-				</div>
-				
-			</div>
-			<div class="row" style="height:50px;"></div>
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-xs-4 col-sm-4 col-lg-4"> -->
-<!--     				<h3 class="text-right">E-MAIL</h3> -->
-<!-- 				</div> -->
-<!-- 				<div class="col-xs-4 col-sm-4 col-lg-4"> -->
-<!--     				<input type="email" class="form-control input-lg" id="email" aria-describedby="emailHelp" placeholder="e-mail" > -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			<div class="row">
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<h2 class="text-right">電話</h2>
-				</div>
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<input type="number" class="form-control input-lg" id="phone" aria-describedby="emailHelp" placeholder="手機" >
-				</div>
-			</div>
-			<div class="row" style="height:50px;"></div>
-			<div class="row">
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<h2 class="text-right">地址</h2>
-				</div>
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<input type="text" class="form-control input-lg" id="address" aria-describedby="emailHelp" placeholder="喜帖寄送地址(記得填郵遞區號)" >
-				</div>
-			</div>
-		</div>
-		
-		<div class="section">
+		<div class="section" id="section4">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-				    <h1>請問您8月19日 18:00 是否願意出席晚宴呢??</h1>
+				    <h1>Hi&nbsp;<span specific-name></span>!請問您8月19日 18:00 是否願意出席晚宴呢??</h1>
 				    <h2>新北市板橋區縣民大道二段3號9樓(捷運板橋站1號出口)</h2>
 				</div>
 			</div>
@@ -451,7 +471,7 @@ label {
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-				    <h1>您是否有興趣於8月19日 14:00 參加教會證婚儀式呢?</h1>
+				    <h1><span specific-name></span>您是否有興趣於8月19日 14:00 參加教會證婚儀式呢?</h1>
 				    <h2>新北市新店區中央路三街15號(捷運小碧潭站2號出口)</h2>
 				</div>
 			</div>
@@ -470,18 +490,49 @@ label {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:50px;">&nbsp;</div>
 			</div>
+		</div>
+		
+		<div class="section" id="section5">
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-				    <button type="button" class="btn btn-lg btn-outline-primary" style="font-size: 30px;" onclick="confirmTo();">確認</button>
+				<div class="col-xs-12 col-sm-12 col-lg-12 ">
+				    <h1 class="text-center">麻煩<span specific-name></span>您留下您的聯絡方式吧!</h1>
+				</div>
+			</div>
+<!-- 			<div class="row" style="height:50px;"></div> -->
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-xs-4 col-sm-4 col-lg-4"> -->
+<!--     				<h2 class="text-right">姓名</h2> -->
+<!-- 				</div> -->
+<!-- 				<div class="col-xs-4 col-sm-4 col-lg-4"> -->
+<!--     				<input type="text" class="form-control input-lg" id="name" aria-describedby="emailHelp" placeholder="姓名(是全名哦!)" > -->
+<!-- 				</div> -->
+				
+<!-- 			</div> -->
+			<div class="row" style="height:50px;"></div>
+			<div class="row">
+				<div class="col-xs-4 col-sm-4 col-lg-4">
+    				<h2 class="text-right">電話</h2>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-lg-4">
+    				<input type="number" class="form-control input-lg" id="phone" aria-describedby="emailHelp" placeholder="手機" >
+				</div>
+			</div>
+			<div class="row" style="height:50px;"></div>
+			<div class="row">
+				<div class="col-xs-4 col-sm-4 col-lg-4">
+    				<h2 class="text-right">地址</h2>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-lg-4">
+    				<input type="text" class="form-control input-lg" id="address" aria-describedby="emailHelp" placeholder="喜帖寄送地址(記得填郵遞區號)" >
 				</div>
 			</div>
 		</div>
 
 		
-		<div class="section">
+		<div class="section" id="section6">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12">
-				    <h1 class="text-center">當天出席總人數是?(不含兒童座椅)</h1>
+				    <h1 class="text-center">請問<span specific-name></span>當天出席總人數是?(不含兒童座椅)</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -527,9 +578,9 @@ label {
 			</div>
 			
 			
-			<div class="row">
+			<div class="row" >
 				<div class="col-xs-12 col-sm-12 col-lg-12">
-				    <h1 class="text-center">需要準備兒童座椅的話要幾張呢?</h1>
+				    <h1 class="text-center">請問<span specific-name></span>若需要準備兒童座椅的話要幾張呢?</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -567,16 +618,26 @@ label {
 					    <input type="radio" name="child-seats" autocomplete="off" value="10"/>十
 					  </label>
 					</div>
-				
 				</div>
 			</div>
 		</div>
-		<div class="section">
-			<div class="row">
+		<div class="section" id="section7">
+			<div class="row" id="thanks">
+				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
+			
+					<canvas id="born_canvas" width="640" height="480">Missing the canvas </canvas>
+					<div id="hidden_canvas" >
+				  		<canvas id="born_canvas_hidden" width="100" height="100" style="display:none"></canvas>
+				  	</div>
+					<canvas width="100" height="100" id="txtCanvas" style="background-color: '#000'; display:none;"></canvas>
+				</div>
+			</div>
+			<div class="row" id="postInfo">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 				    <button type="button" class="btn btn-lg btn-outline-primary" style="font-size: 30px;" onclick="submitTo();">送出</button>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 
