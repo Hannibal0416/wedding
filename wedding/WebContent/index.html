@@ -1,11 +1,12 @@
 <html>
 <meta charset="utf-8" />
 <meta property="og:title" content="文舜與丞君的婚宴邀請"></meta>
-<meta property="og:type" content="婚宴邀請"></meta>
+<meta property="og:type" content="文舜與丞君的婚宴邀請"></meta>
 <meta property="og:url" content="wedding"></meta>
 <meta property="og:image" content="img/wedding.png"></meta>
 <meta property="og:description" content="文舜與丞君的婚宴邀請"></meta>
 <meta property="og:site_name" content="文舜與丞君的婚宴邀請"></meta>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <head>
 <title>文舜與丞君的婚宴邀請</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -34,29 +35,29 @@
 /*   	filter: alpha(opacity=20); */
 /* 	padding: 30% 0 0 0; */
 /* } */
-@font-face {
-  font-family: 'cwTeXYen';
-  font-style: normal;
-  font-weight: 500;
-  src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot);
-  src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'),
-       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'),
-       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'),
-       url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype');
-}
+/* @font-face { */
+/*   font-family: 'cwTeXYen'; */
+/*   font-style: normal; */
+/*   font-weight: 500; */
+/*   src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot); */
+/*   src: url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.eot?#iefix) format('embedded-opentype'), */
+/*        url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff2) format('woff2'), */
+/*        url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.woff) format('woff'), */
+/*        url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype'); */
+/* } */
 
 /* all */
 /*.form-control::-webkit-input-placeholder { color:#ecf2e1; font-size:20px;}
 .form-control::-moz-placeholder { color:#ecf2e1; font-size:20px;}  
 .form-control:-ms-input-placeholder { color:#ecf2e1; font-size:20px; }   */
-
+@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
 body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
   	background-image: url(img/se0.jpg); 
   	background-attachment: fixed;
-  	font-family: cwTeXYen;
+  	font-family: 'Noto Sans TC';
 /*   	opacity: 0.2;  */
 /*   	filter: alpha(opacity=20); */
 /* 	padding: 30% 0 0 0; */
@@ -165,66 +166,69 @@ label {
       };
 	var sname = null;
 	$(document).ready( function() {
-				components.section1.svg_path1 = anime({
-					  targets: '#path_title',
-					  strokeDashoffset: [anime.setDashoffset, 0],
-					  easing: 'easeInOutSine',
-					  duration: 5000,
-					  delay: function(el, i) { return i * 1000 },
-					  direction: 'alternate',
-					  loop: false
-					});
-				components.section1.svg_date1 = anime({
-					  targets: '#path_date',
-					  strokeDashoffset: [anime.setDashoffset, 0],
-					  easing: 'easeInOutSine',
-					  duration: 5000,
-					  delay: function(el, i) { return i * 1000 },
-					  direction: 'alternate',
-					  loop: false
-					});
-				var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
-				var bridegroomX = mq.matches ?  340: 450;
-				var brideX = mq.matches? -240: -240;
-				components.section2.bridegroom = anime({
-					targets : document.getElementById('bridegroom'),
-					translateX : [ {
-						value : 0,
-						duration : 0
-					}, {
-						value : bridegroomX,
-						duration : 2000
-					} ],
+		$('input, select, textarea').on('focus blur', function(event) {
+		    $('meta[name=viewport]').attr('content', 'width=device-width,initial-scale=1,maximum-scale=' + (event.type == 'blur' ? 10 : 1));
+		});
+		components.section1.svg_path1 = anime({
+			  targets: '#path_title',
+			  strokeDashoffset: [anime.setDashoffset, 0],
+			  easing: 'easeInOutSine',
+			  duration: 5000,
+			  delay: function(el, i) { return i * 1000 },
+			  direction: 'alternate',
+			  loop: false
+			});
+		components.section1.svg_date1 = anime({
+			  targets: '#path_date',
+			  strokeDashoffset: [anime.setDashoffset, 0],
+			  easing: 'easeInOutSine',
+			  duration: 5000,
+			  delay: function(el, i) { return i * 1000 },
+			  direction: 'alternate',
+			  loop: false
+			});
+		var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
+		var bridegroomX = mq.matches ?  340: 450;
+		var brideX = mq.matches? -240: -240;
+		components.section2.bridegroom = anime({
+			targets : document.getElementById('bridegroom'),
+			translateX : [ {
+				value : 0,
+				duration : 0
+			}, {
+				value : bridegroomX,
+				duration : 2000
+			} ],
 // 					translateX : '250',
-					easing: 'easeInOutQuart',
+			easing: 'easeInOutQuart',
 // 					rotate : '1turn',
 					// 				  backgroundColor: '#FFF',
-					duration : 3000,
-					loop : false
-				});
+			duration : 3000,
+			loop : false
+		});
 				
-				components.section2.bride = anime({
-					targets : document.getElementById('bride'),
-					translateX : [ {
-						value : 200,
-						duration : 0
-					}, {
-						value : brideX,
-						duration : 3000
-					} ],
-					complete: function(anim) {
+		components.section2.bride = anime({
+			targets : document.getElementById('bride'),
+			translateX : [ {
+				value : 200,
+				duration : 0
+			}, {
+				value : brideX,
+				duration : 3000
+			} ],
+			complete: function(anim) {
 // 					    completedLogEl.value = 'completed : ' + anim.completed;
-						$('#ring').show();
-					},
+				$('#ring').show();
+			},
 // 					rotate : '1turn'    ,
 					// 				  backgroundColor: '#FFF',
 // 					translateX: 250,
 // 				    scale: 2,
 // 					translateX : '-250',
-				    easing: 'easeInOutQuart',
-					duration : 2000,
-					loop : false
-				});
+		    easing: 'easeInOutQuart',
+			duration : 2000,
+			loop : false
+		});
 				
 		$('input:radio[name="friend-belongs"]').change(function(){
 	        if ($(this).is(':checked') && $(this).val() == 'hannibal') {
