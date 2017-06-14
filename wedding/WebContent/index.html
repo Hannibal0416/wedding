@@ -353,8 +353,6 @@ label[validate] {
 			}
 		});
 		
-		
-		
 	});
 
 	function validate() {
@@ -463,55 +461,44 @@ label[validate] {
 	
 	function submitTo(){
 		isSubmited = true;
-			console.log(params);
-			if (validate()) {
-				var $this = $('#submitTo');
-				$this.button('loading');
-				$.ajax({
-				  	data : params,
-				  	dataType: 'json',
-				  	method : 'GET',
-				  	url:'https://script.google.com/macros/s/AKfycbyo3xu8-NLPOJQQKQTp36RmyGOMdAzm0KXXfrxTN1Z6lXHndiWh/exec',
-				  	success : function(data, textStatus, jqXHR ) {
-				  		if(data == true || data == "true"){
-							  $this.button('reset');
-							  $('#thanks').show();
-					  		  $('#postInfo').hide();
-					  		  init();
-					          setHighNumCircles();
-					          setGravity();
-					          setFade();
-					          
-// 					          $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=2');
-// 					          isScale = true;
-						} else {
-							
-						}
-					},
-					error : function(jqXHR,textStatus,errorThrown){
-						alert('an error has occured!');
+		console.log(params);
+		if (validate()) {
+			$('#submitTo').button('loading');
+			$.ajax({
+			  	data : params,
+			  	dataType: 'json',
+			  	method : 'GET',
+			  	url:'https://script.google.com/macros/s/AKfycbyo3xu8-NLPOJQQKQTp36RmyGOMdAzm0KXXfrxTN1Z6lXHndiWh/exec',
+			  	success : function(data, textStatus, jqXHR ) {
+			  		if(data == true || data == "true"){
+						  show();
+					} else {
+						alert('an error has occured');
+						$('#submitTo').button('reset');
 					}
-				});
-			}
-			
-			
-// 			
-// 			$.get("https://script.google.com/macros/s/AKfycbyo3xu8-NLPOJQQKQTp36RmyGOMdAzm0KXXfrxTN1Z6lXHndiWh/exec", params, function (data) {
-
-				
-// 				if(data == "true"){
-// 					  $this.button('reset');
-// 					  $('#thanks').show();
-// 			  		  $('#postInfo').hide();
-// 			  		  init();
-// 			          setHighNumCircles();
-// 			          setGravity();
-// 			          setFade();
-// 				} else {
-					
-// 				}
-				 
-// 			});
+				},
+				error : function(jqXHR,textStatus,errorThrown){
+					show();
+				}
+			});
+		}
+	}
+	
+	function show() {
+		
+		if(params.weddingDinner == "true" || params.church == 'true') {
+			arr_Msg =  sname + '我們八月十九日見！感謝您！';
+		} else {
+			arr_Msg =  sname + '您的資料我們收到了！感謝您！';
+		}
+		
+		$('#submitTo').button('reset');
+		$('#thanks').show();
+		$('#postInfo').hide();
+		init();
+		setHighNumCircles();
+		setGravity();
+		setFade();
 	}
 
 	
@@ -586,7 +573,7 @@ label[validate] {
 			<div class="row" style="height:50px;"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-				    <h1>H!&nbsp;<span specific-name></span>請問您是文舜還是丞君的朋友啊?</h1>
+				    <h1>Hi!&nbsp;<span specific-name></span>請問您是文舜還是丞君的朋友啊?</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -685,7 +672,7 @@ label[validate] {
 		<div class="section" id="section6">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12">
-				    <h1 class="text-center">請問<span specific-name></span>當天出席總人數是?(不含兒童座椅)</h1>
+				    <h1 class="text-center"><span specific-name></span>您當天出席總人數是?(不含兒童座椅)</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -729,7 +716,7 @@ label[validate] {
 			
 			<div class="row" >
 				<div class="col-xs-12 col-sm-12 col-lg-12">
-				    <h1 class="text-center">請問<span specific-name></span>若需要準備兒童座椅的話要幾張呢?</h1>
+				    <h1 class="text-center"><span specific-name></span>您若需要準備兒童座椅的話要幾張呢?</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -774,7 +761,7 @@ label[validate] {
 			<div id="postInfo">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-						<h1>請問<span specific-name></span>您有什麼話想對我們說呢?</h1>
+						<h1><span specific-name></span>您有什麼話想對我們說呢?</h1>
 					</div>
 				</div>
 				<div class="row">
