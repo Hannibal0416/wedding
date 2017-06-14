@@ -164,7 +164,7 @@ function imagesLoaded(){
 	arr_Msg =  sname!= null ?  sname + '您的資料我們已經收到了！謝謝您！' : '您的資料我們已經收到了！謝謝您！' ;
 	arr_letters = arr_Msg;
 	ctx=document.querySelector('#txtCanvas').getContext('2d');
-	ctx.font="90px cwTeXYen";
+	ctx.font="90px 'Noto Sans TC'";
 	ctx.fillStyle = '#f4b642';
 	for(var i=0;i<arr_Msg.length;i++) {
 		
