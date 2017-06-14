@@ -7,7 +7,7 @@
 <meta property="og:image" content="img/wedding.png"></meta>
 <meta property="og:description" content="文舜與丞君的婚宴邀請"></meta>
 <meta property="og:site_name" content="文舜與丞君的婚宴邀請"></meta>
-<!-- <meta name="viewport" content="width=device-width, initial-scale=2"> -->
+<meta name="viewport" content="width=device-width, initial-scale=0.5">
 <head>
 <title>文舜與丞君的婚宴邀請</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -67,42 +67,36 @@ body {
 input,textarea {
     font-size: 24px !important;
 }
-
-input[type="text"] , input[type="email"],input[type="number"]
+.has-error {
+    border-color: #a94442 !important;
+    background-color: rgba(255, 0, 0, 0.5) !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.has-error:focus {
+    border-color: #a94442 !important;
+    background-color: rgba(255, 255, 255, 1) !important;
+    box-shadow: inset 0 2px 2px rgba(0,0,0,.075);
+}
+input[type="text"] , input[type="email"],input[type="tel"]
 {
     background-color: rgba(0, 0, 0, 0.5);
-    border-color: #5bc0de;
+    border-color: #5bc0de
 }
 
 
 label { 
-	font-size: 30px !important;
+	font-size: 40px !important;
 }
-#hannibal {
-	width:350px;
-	height:350px;
-	background-image: url('img/hannibal_.png');
-	background-size: 350px 350px;
+label[validate] {
+	color: red;
 }
-#annie {
-	width:350px;
-	height:350px;
-	background-image: url('img/annie_.png');
-	background-size: 350px 350px;
-}
-#menu { margin: 0; padding: 0; position: fixed; left: 10px; top: 10px; list-style-type: none; z-index: 70;}
-#menu li { float: left; margin:  0 10px 0 0; font-size: 14px;}
-#menu a { float: left; padding: 10px 20px; background-color: #fff; color: #333; text-decoration: none;}
-#menu .active a { color: #fff; background-color: #333;}
 
 @media screen and (min-device-width: 320px) and (max-device-width: 736px) {
 	h1 {
 	    font-size: 50px;
 	    font-weight: bold;
 	    color : white;
-    
 	}
-	
 	h2 {
 	    font-size: 40px;
 	    color : white;
@@ -111,6 +105,21 @@ label {
 		font-size: 30px;
 		color : white;
 	}
+	#hannibal {
+		width:300px;
+		height:300px;
+		background-image: url('img/hannibal_.png');
+		background-size: 300px 300px;
+	}
+	#annie {
+		width:300px;
+		height:300px;
+		background-image: url('img/annie_.png');
+		background-size: 300px 300px;
+	}
+	input[type=text], input[type=password], input[type=email], input[type=tel] {
+    	height: 55px !important;
+	}
 }
 
 @media screen and (min-device-width: 736px) {
@@ -118,9 +127,7 @@ label {
 	    font-size: 40px;
 	    font-weight: bold;
 	    color : white;
-    
 	}
-	
 	h2 {
 	    font-size: 30px;
 	    color : white;
@@ -129,36 +136,26 @@ label {
 		font-size: 20px;
 		color : white;
 	}
-}
-
-.center {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 100%;
-    max-height: 100%;
-    margin: auto;
-    overflow: auto;
-}
-.col-centered{
-    float: none;
-    margin: 0 auto;
-}
-.col-right{
-    float: right;
-    margin: 0 auto;
-}
-
-.col-left{
-    float: left;
-    margin: 0 auto;
+	#hannibal {
+		width:350px;
+		height:350px;
+		background-image: url('img/hannibal_.png');
+		background-size: 350px 350px;
+	}
+	#annie {
+		width:350px;
+		height:350px;
+		background-image: url('img/annie_.png');
+		background-size: 350px 350px;
+	}
 }
 
 </style>
 <script type="text/javascript">
+	var isSubmited = false;
 
+
+	
 	var components = {
 			section1 : {
 				svg_path1: null,
@@ -176,16 +173,23 @@ label {
         "friendBelongs": null,
         "phone": null,
         "address": null,
-        "church": false,
-        "weddingDinner": false,
+        "church": null,
+        "weddingDinner": null,
         "numberOfParticipants": null,
         "childSeats": null,
+        "ip":null,
         "time": new Date().toLocaleString()
       };
 	var sname = null;
 	$(document).ready( function() {
+		$.getJSON('//gd.geobytes.com/GetCityDetails?callback=?', function(data) {
+			params.ip = data.geobytesipaddress;
+		});
 		$('input, select, textarea').on('blur', function(event) {
-		    $('meta[name=viewport]').attr('content', 'width=device-width,initial-scale=0');
+		    $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=0.5');
+		});
+		$('label[validate]').each(function(){
+			$(this).hide();
 		});
 		components.section1.svg_path1 = anime({
 			  targets: '#path_title',
@@ -206,8 +210,9 @@ label {
 			  loop: false
 		});
 		var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
-		var bridegroomX = mq.matches ?  340: 450;
-		var brideX = mq.matches? -240: -240;
+		var bridegroomX = mq.matches ?  200: 450;
+		var brideX = mq.matches? -160: -240;
+		var brideOri = mq.matches? 100: 200;
 		components.section2.bridegroom = anime({
 			targets : document.getElementById('bridegroom'),
 			translateX : [ {
@@ -228,7 +233,7 @@ label {
 		components.section2.bride = anime({
 			targets : document.getElementById('bride'),
 			translateX : [ {
-				value : 200,
+				value : brideOri,
 				duration : 0
 			}, {
 				value : brideX,
@@ -273,9 +278,15 @@ label {
 
 		$('#thanks').hide();
 		$('#postInfo').show();
+
+		$('input').blur(function(){
+			if(isSubmited) {
+				validate();
+			}
+		});
 		
 	});
-	
+	var isScale = false;
 	$(document).ready( function() {
 		var a = $('#fullpage').fullpage({
 //				scrollingSpeed: 700,
@@ -290,6 +301,11 @@ label {
 			navigationPosition: 'right',
 			navigationTooltips: ['一', '二', '三','四','五','六','七'],
 			afterLoad : function(anchorLink, index) {
+
+// 				if(isScale == true) {
+// 					 $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=0.5');
+// 				}
+				
 				switch (index) {
 				case 1:
 					if ( components.section1.svg_path1 != null ) {
@@ -336,12 +352,105 @@ label {
 	});
 
 	function validate() {
-		if(params.name != null) {
+		params.name = $('#name').val();
+		params.phone = $('#phone').val();
+		params.friendBelongs=$('input[name=friend-belongs]:checked').val();
+		params.address = $('#address').val();
+		params.church = $('input[name=church]:checked').val();
+		params.weddingDinner = $('input[name=wedding-dinner]:checked').val();
+		params.numberOfParticipants = $('input[name=number-of-participants]:checked').val();
+		params.childSeats = $('input[name=child-seats]:checked').val();
+		params.comments = $('#comments').val();
+		var moveTo = 7;
+		if( params.name == '' || params.friendBelongs == undefined || params.weddingDinner == undefined || params.church == undefined) {
+			if(params.weddingDinner == undefined) {
+				moveTo = 4;
+				$('#wedding-dinner-validator').show();
+			} else {
+				$('#wedding-dinner-validator').hide();
+			}
+			if(params.church == undefined) {
+				moveTo = 4;
+				$('#church-validator').show();
+			} else {
+				$('#church-validator').hide();
+			}
+			
+			if(params.name == '') {
+				moveTo = 3;
+				$('#name').addClass("has-error");
+			} else {
+				if($('#name').hasClass("has-error")){
+					$('#name').removeClass("has-error");
+				}
+			}
+			if(params.friendBelongs == undefined) {
+				moveTo = 3;
+				$('#friend-belongs-validator').show();
+			} else {
+				$('#friend-belongs-validator').hide();
+			}
+			$.fn.fullpage.moveTo(moveTo);
+			return false;
+		} else {
 			if(params.church == true || params.weddingDinner == true) {
-				params.friendBelongs
+				if(params.phone == '' || params.address == '') {
+					if(params.phone == '') {
+						moveTo = 5;
+						$('#phone').addClass("has-error");
+					} else {
+						if($('#phone').hasClass("has-error")){
+							$('#phone').removeClass("has-error");
+						}
+					}
+					if(params.address == '') {
+						moveTo = 5;
+						$('#address').addClass("has-error");
+					} else {
+						if($('#address').hasClass("has-error")){
+							$('#address').removeClass("has-error");
+						}
+					}
+					$.fn.fullpage.moveTo(moveTo);
+					return false;
+				} else {
+					return true;
+				}
+
+				if(params.weddingDinner == true) {
+					if(params.childSeats == undefined) {
+						moveTo = 6;
+						$('#child-seats-validator').show();
+					} else {
+						$('#child-seats-validator').hide();
+					}
+					if(params.numberOfParticipants == undefined) {
+						moveTo = 6;
+						$('#number-of-participants-validator').show();
+					} else {
+						$('#number-of-participants-validator').hide();
+					}
+					$.fn.fullpage.moveTo(moveTo);
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
+		
+		
+		if(params.name != null && params.church != null && param.weddingDinner != null) {
+			if(params.church == true || params.weddingDinner == true) {
 				params.phone
 				params.address
-				return false;
+
+				if(params.weddingDinner == false) {
+					return false;
+				}
+			} else {
+				return true;
 			}
 			if(params.weddingDinner == true) {
 				params.childSeats
@@ -353,19 +462,11 @@ label {
 	}
 	
 	function submitTo(){
-		 var $this = $('#submitTo');
-		  	$this.button('loading');
-		  	params.name = $('#name').val();
-			params.phone = $('#phone').val();
-			params.friendBelongs=$('input[name=friend-belongs]:checked').val();
-			params.address = $('#address').val();
-			params.church = $('input[name=church]:checked').val();
-			params.weddingDinner = $('input[name=wedding-dinner]:checked').val();
-			params.numberOfParticipants = $('input[name=number-of-participants]:checked').val();
-			params.childSeats = $('input[name=child-seats]:checked').val();
-			params.comments = $('#comments').val();
+		isSubmited = true;
 			console.log(params);
-// 			if (validate()) {
+			if (validate()) {
+				var $this = $('#submitTo');
+				$this.button('loading');
 				$.ajax({
 				  	data : params,
 				  	dataType: 'json',
@@ -380,6 +481,9 @@ label {
 					          setHighNumCircles();
 					          setGravity();
 					          setFade();
+					          
+// 					          $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=2');
+// 					          isScale = true;
 						} else {
 							
 						}
@@ -388,7 +492,7 @@ label {
 						alert('an error has occured!');
 					}
 				});
-// 			}
+			}
 			
 			
 // 			
@@ -474,8 +578,8 @@ label {
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 				    <h1 class="text-center">請問您是?</h1> 
 				</div>
-				<div class="col-xs-4 col-sm-4 col-lg-4 text-center"></div>
-				<div class="col-xs-4 col-sm-4 col-lg-4 text-center">
+				<div class="col-xs-2 col-sm-2 col-lg-4 text-center"></div>
+				<div class="col-xs-8 col-sm-8 col-lg-4 text-center">
 				    <input type="text" class="form-control input-lg" id="name" placeholder="姓名(是全名哦!)" >
 				</div>
 			</div>
@@ -495,6 +599,8 @@ label {
 							    <input type="radio" name="friend-belongs" autocomplete="off" value="annie"/>丞君
 						</label>
 					</div>
+					<br/>
+					<label id="friend-belongs-validator" validate><span specific-name></span>您忘了選擇哦!</label>
 				</div>
 			</div>
 		</div>
@@ -510,16 +616,18 @@ label {
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-lg btn-outline-info">
-							<input type="radio" name="wedding-dinner" autocomplete="off" value="true"/>當然要，我等很久了耶!
+							<input type="radio" name="wedding-dinner" autocomplete="off" value="true"/>當然要!<br/>我等很久了!
 						</label>
 						<label class="btn btn-lg btn-outline-danger">
-							<input type="radio" name="wedding-dinner" autocomplete="off" value="false"/>謝謝邀請，我祝福的心與你們同在~
+							<input type="radio" name="wedding-dinner" autocomplete="off" value="false"/>謝謝邀請!<br/>我心與你們同在~
 						</label>
 					</div>
+					<br/>
+					<label id="wedding-dinner-validator" validate><span specific-name></span>您忘了選擇哦!</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:150px;">&nbsp;</div>
+				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:100px;">&nbsp;</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
@@ -531,13 +639,16 @@ label {
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-lg btn-outline-info">
-							<input type="radio" name="church" autocomplete="off" value="true"/>當然要，我等很久了!
+							<input type="radio" name="church" autocomplete="off" value="true"/>當然要!<br/>我等很久了!
 						</label>
 						<label class="btn btn-lg btn-outline-danger">
-							<input type="radio" name="church" autocomplete="off" value="false"/>謝謝邀請，我祝福的心與你們同在~
+							<input type="radio" name="church" autocomplete="off" value="false"/>謝謝邀請!<br/>我心與你們同在~
 						</label>
 					</div>
+					<br/>
+					<label id="church-validator" validate><span specific-name></span>您忘了選擇哦!</label>
 				</div>
+				
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:50px;">&nbsp;</div>
@@ -555,8 +666,8 @@ label {
 				<div class="col-xs-4 col-sm-4 col-lg-4">
     				<h2 class="text-right">電話</h2>
 				</div>
-				<div class="col-xs-4 col-sm-4 col-lg-4">
-    				<input type="number" class="form-control input-lg" id="phone" aria-describedby="emailHelp" placeholder="手機" >
+				<div class="col-xs-6 col-sm-6 col-lg-4">
+    				<input type="tel" class="form-control input-lg" id="phone" aria-describedby="emailHelp" placeholder="手機" >
 				</div>
 			</div>
 			<div class="row" style="height:50px;"></div>
@@ -564,7 +675,7 @@ label {
 				<div class="col-xs-4 col-sm-4 col-lg-4">
     				<h2 class="text-right">地址</h2>
 				</div>
-				<div class="col-xs-4 col-sm-4 col-lg-4">
+				<div class="col-xs-6 col-sm-6 col-lg-4">
     				<input type="text" class="form-control input-lg" id="address" aria-describedby="emailHelp" placeholder="喜帖寄送地址(記得填郵遞區號)" >
 				</div>
 			</div>
@@ -608,10 +719,9 @@ label {
 					  <label class="btn btn-lg btn-outline-warning">
 					    <input type="radio" name="number-of-participants" autocomplete="off" value="9"/>九
 					  </label>
-					  <label class="btn btn-lg btn-outline-warning">
-					    <input type="radio" name="number-of-participants" autocomplete="off" value="10"/>十
-					  </label>
 					</div>
+					<br/>
+					<label id="number-of-participants-validator" validate><span specific-name></span>您忘了選擇哦!</label>
 				
 				</div>
 			</div>
@@ -656,10 +766,9 @@ label {
 					  <label class="btn btn-lg btn-outline-warning">
 					    <input type="radio" name="child-seats" autocomplete="off" value="9"/>九
 					  </label>
-					  <label class="btn btn-lg btn-outline-warning">
-					    <input type="radio" name="child-seats" autocomplete="off" value="10"/>十
-					  </label>
 					</div>
+					<br/>
+					<label id="child-seats-validator" validate><span specific-name></span>您忘了選擇哦!</label>
 				</div>
 			</div>
 		</div>
@@ -681,17 +790,18 @@ label {
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xs-2 col-sm-2 col-lg-2 text-center">
+					<div class="col-xs-1 col-sm-1 col-lg-2 text-center">
 					</div>
-					<div class="col-xs-8 col-sm-8 col-lg-8 text-center">
+					<div class="col-xs-10 col-sm-10 col-lg-8 text-center">
 						<textarea class="form-control" rows="5" id="comments"></textarea>
 					</div>
-					<div class="col-xs-2 col-sm-2 col-lg-2 text-center">
+					<div class="col-xs-1 col-sm-1 col-lg-2 text-center">
 					</div>
 				</div>
+				<div class="row" style="height:50px;"></div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-					    <button id="submitTo" type="button" data-loading-text="發送中" class="btn btn-lg btn-info" style="font-size: 30px;" onclick="submitTo();">
+					    <button id="submitTo" type="button" data-loading-text="發送中, 請稍候‧‧‧‧" class="btn btn-lg btn-info" style="font-size: 30px;" onclick="submitTo();">
 					    	送出
 					    </button>
 					</div>
