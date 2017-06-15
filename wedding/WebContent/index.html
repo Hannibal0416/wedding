@@ -175,11 +175,11 @@ label[validate] {
 </style>
 <script type="text/javascript">
 	$.fn.left = function() {
-		return $(document).width() - (this.offset().left + this.outerWidth());
+		return this.offset().left;
 	}
 
 	$.fn.right = function() {
-		return $(document).width() - this.offset().left;
+		return this.offset().left + this.width();
 	}
 
 
@@ -350,9 +350,9 @@ label[validate] {
 					$('#title').show();
 					break;
 				case 2:
-					var bridegroomX = $('#ring').left() - $('#bridegroom').width();
-					var brideX = $('#ring').right() + $('#bride').width() - $(document).width();
-					var brideOri = $('#bride').right();
+					var bridegroomX = $('#bridegroom').right() - $('#ring').left();
+					var brideX =  $('#bride').left() - $('#ring').right();
+// 					var brideOri = $('#bride').right();
 					
 					$('#ring').hide();
 					components.section2.bridegroom = anime({
@@ -387,7 +387,7 @@ label[validate] {
 						},
 //			 			rotate : '1turn'    ,
 // 				  		backgroundColor: '#FFF',
-//			 			translateX: 250,
+// 			 			translateX: 250,
 //			 			scale: 2,
 			 			translateX : brideX,
 					    easing: 'easeInOutQuart',
