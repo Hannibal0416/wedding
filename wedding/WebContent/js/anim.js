@@ -161,7 +161,6 @@ function draw(){
 
 }
 function imagesLoaded(){
-	arr_Msg =  sname!= null ?  sname + '您的資料我們已經收到了！謝謝您！' : '您的資料我們已經收到了！謝謝您！' ;
 	arr_letters = arr_Msg;
 	ctx=document.querySelector('#txtCanvas').getContext('2d');
 	ctx.font="90px 'Noto Sans TC'";
@@ -173,10 +172,9 @@ function imagesLoaded(){
 		arr_ImageLetters[i].src=ctx.canvas.toDataURL();
 		ctx.clearRect(0, 0, 100, 100);
 	}
-//	setTimeout(startClearCircles,1500);
-//	setInterval(setNextLetter,2000);
-	setTimeout(startClearCircles,750);
-	setInterval(setNextLetter,1000);
+
+	setTimeout(startClearCircles,375);
+	setInterval(setNextLetter,500);
 	return true
 }
 function clear(){
