@@ -60,7 +60,7 @@ preload(
 )
 
 $(document).ready( function() {
-	$.getJSON('//gd.geobytes.com/GetCityDetails?callback=?', function(data) {
+	$.get( "//gd.geobytes.com/GetCityDetails?callback=?", function( data ) {
 		params.ip = data.geobytesipaddress;
 	});
 	
