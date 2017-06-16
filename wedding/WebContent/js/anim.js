@@ -15,7 +15,7 @@ var nMsgIndex=0;
 var arr_ImageLetters=new Array();
 var arr_letters=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','1','2'];
 var ctx = null;
-
+var color = null;
 //for(var l=0;l<26;l++){
 //	arr_ImageLetters[l]=new Image();
 //	arr_ImageLetters[l].src="letters/free-alphabet-clipart-"+arr_letters[l]+".jpg"
@@ -89,6 +89,7 @@ function setLetter(c){
 	}
 }
 function setNextLetter(){
+	color = getRandomColor();
 	setLetter(arr_Msg[nMsgIndex]);
 	nMsgIndex++;
 	nMsgIndex=nMsgIndex%arr_Msg.length
@@ -108,6 +109,40 @@ function startClearCircles(){
 	setInterval(clearCircles,1000)
 }
 
+Colors = {};
+Colors.names = {
+    darkmagenta: "#8b008b",
+    darkorange: "#ff8c00",
+    darkorchid: "#9932cc",
+    darkred: "#8b0000",
+    darksalmon: "#e9967a",
+    darkviolet: "#9400d3",
+    fuchsia: "#ff00ff",
+    gold: "#ffd700",
+    khaki: "#f0e68c",
+    lightblue: "#add8e6",
+    lightcyan: "#e0ffff",
+    lightgreen: "#90ee90",
+    lightgrey: "#d3d3d3",
+    lightpink: "#ffb6c1",
+    lightyellow: "#ffffe0",
+    magenta: "#ff00ff",
+    maroon: "#800000",
+    orange: "#ffa500",
+    pink: "#ffc0cb",
+    purple: "#800080",
+    violet: "#800080",
+    red: "#ff0000",
+    yellow: "#ffff00"
+}; 
+Colors.random = function() {
+    var result;
+    var count = 0;
+    for (var prop in this.names)
+        if (Math.random() < 1/++count)
+           result = prop;
+    return result;
+};
 function draw(){
  	
 	if(!bImagesLoaded){
@@ -149,9 +184,9 @@ function draw(){
 	
 	
 	
-	g.globalAlpha=C.alpha;
+	g.globalAlpha=0.5;
 	g.beginPath();
-	g.fillStyle = "#ff0202";
+	g.fillStyle = color;
 	g.arc(C.x, C.y, C.r, 0, Math.PI * 2, true);
 	g.closePath();
 	g.fill();
@@ -159,6 +194,18 @@ function draw(){
 	}
 	
 
+}
+
+
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 function imagesLoaded(){
 	arr_letters = arr_Msg;

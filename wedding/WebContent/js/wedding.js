@@ -47,6 +47,18 @@ var animeInput = {
 	loop : false
 };
 
+var images = new Array()
+function preload() {
+	for (i = 0; i < preload.arguments.length; i++) {
+		images[i] = new Image()
+		images[i].src = preload.arguments[i]
+	}
+}
+preload(
+	"img/annie.png",
+	"img/hannibal.png"
+)
+
 $(document).ready( function() {
 	$.getJSON('//gd.geobytes.com/GetCityDetails?callback=?', function(data) {
 		params.ip = data.geobytesipaddress;
