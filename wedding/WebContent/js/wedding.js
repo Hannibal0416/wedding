@@ -237,8 +237,6 @@ $(document).ready( function() {
 //				fadingEffect: true,
 // 				scrollOverflowReset: false,
 // 			scrollBar: true,
-		parallax:true,
-		parallaxKey: 'YWx2YXJvdHJpZ28uY29tXzlNZGNHRnlZV3hzWVhnPTFyRQ==',
 		verticalCentered: true,
 		navigation: false,
 		menu: '#menu',
