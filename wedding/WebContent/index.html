@@ -22,10 +22,11 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="js/jquery.fullpage.min.js"></script>
-<script type="text/javascript" src="js/jquery.fullpage.extensions.min.js"></script>
+<!-- <script type="text/javascript" src="js/jquery.fullpage.extensions.min.js"></script> -->
 <script type="text/javascript" src="js/anim.js"></script>
 <!-- <script type="text/javascript" src="js/rellax.min.js"></script> -->
 <script type="text/javascript" src="js/anime.min.js"></script>
+
 <!-- <script type="text/javascript" src="js/progressbar.min.js"></script> -->
 <!-- <script type="text/javascript" src="js/jquery.fancybox.min.js"></script> -->
 <style type="text/css">
@@ -59,12 +60,48 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-  	background-image: url(img/se0.jpg); 
+/*    	background-image: url(img/se0.jpg); */
   	background-attachment: fixed;
   	font-family: 'Noto Sans TC';
 /*   	opacity: 0.2;  */
 /*   	filter: alpha(opacity=20); */
 /* 	padding: 30% 0 0 0; */
+}
+
+#section1 {
+    background-image: url('img/se0.jpg');
+    background-size: cover;
+    background-position: center 80%;
+}
+#section2 {
+    background-image: url('img/se1.jpg');
+    background-size: cover;
+    background-position: center 80%;
+}
+#section3 {
+    background-image: url('img/se3.jpg');
+    background-size: cover;
+    background-position: center 80%;
+}
+#section4 {
+    background-image: url('img/se4.jpg');
+    background-size: cover;
+    background-position: center 80%;
+}
+#section5 {
+    background-image: url('img/se5.jpg');
+    background-size: cover;
+    background-position: center 80%;
+}
+#section6 {
+    background-image: url('img/se6.jpg');
+    background-size: cover;
+    background-position: center 80%;
+}
+#section7 {
+    background-image: url('img/se7.png');
+    background-size: cover;
+    background-position: center 80%;
 }
 
 .has-error {
@@ -79,7 +116,7 @@ body {
 }
 input[type="text"],input[type="tel"]
 {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0);
     border-color: #5bc0de
 }
 
@@ -92,17 +129,21 @@ label[validate] {
 #loading {background-color: rgba(0, 0, 0, 1);width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;display: block; z-index: 99}
 
 @media screen and (min-device-width: 320px) and (max-device-width: 736px) {
+	#loading-svg {
+		color : #C26EFF;
+		margin-top: 60%;
+	}
 	h1 {
- 	    font-size: 25px; 
+ 	    font-size: 20px; 
 	    font-weight: bold;
 	    color : white;
 	}
 	h2 {
- 	    font-size: 20px; 
+ 	    font-size: 15px; 
 	    color : white;
 	}
 	h3 {
- 		font-size: 15px; 
+ 		font-size: 10px; 
 		color : white;
 	}
 	input,textarea {
@@ -122,11 +163,11 @@ label[validate] {
 	}
 	#bridegroom {
 		width:50px;
-		padding-top: 20px;
+/* 		padding-top: 20px; */
 	} 
 	#bride {
-		width:80px;
-		padding-top: 30px;
+		width:70px;
+/* 		padding-top: 20px; */
 	}
 	#ring {
 		width:25px;
@@ -145,26 +186,17 @@ label[validate] {
 		font-size: 18px !important;
 	}
 	
-	.text-output {
-	    font-size: 28px !important;
-	    color: #FF7C72;
-	    text-align: center;
-	    background-color: transparent;
-	    border: 1px solid currentColor;
-	    margin-top: 80%;
-	}
 }
 
 @media screen and (min-device-width: 736px) {
-
-	.text-output {
-	    font-size: 60px !important;
-	    color: #FF7C72;
-	    text-align: center;
-	    background-color: transparent;
-	    border: 1px solid currentColor;
-	    margin-top: 30%;
+	#loading-svg {
+		color : #C26EFF;
+		margin-top: 15%;
 	}
+/* 	.text-output { */
+/* 	    font-size: 60px !important; */
+/* 	    color: #FF7C72; */
+/* 	} */
 	input,textarea {
 	    font-size: 20px !important;
 	}
@@ -172,8 +204,8 @@ label[validate] {
 		width:70px;
 	} 
 	#bride {
-		width:110px;
-		padding-top: 10px;
+		width:100px;
+/* 		padding-top: 10px; */
 	}
 	#ring {
 		width:50px;
@@ -211,414 +243,30 @@ label[validate] {
 }
 
 </style>
-<script type="text/javascript">
-	$.fn.left = function() {
-		return this.offset().left;
-	}
 
-	$.fn.right = function() {
-		return this.offset().left + this.width();
-	}
-
-
-	var isSubmited = false;
-
-	var components = {
-			section1 : {
-				svg_path1: null,
-				svg_date1 : null
-			},
-			section2 : {
-				bridegroom: null,
-				bride: null
-			}
-	}
-	
-	var params = {
-        "name": null,
-        "email": null,
-        "friendBelongs": null,
-        "phone": null,
-        "address": null,
-        "church": null,
-        "weddingDinner": null,
-        "numberOfParticipants": null,
-        "childSeats": null,
-        "ip":null,
-        "time": new Date().toLocaleString()
-      };
-	var sname = null;
-	$(document).ready( function() {
-		$.getJSON('//gd.geobytes.com/GetCityDetails?callback=?', function(data) {
-			params.ip = data.geobytesipaddress;
-		});
-		
-// 		$('input, textarea').blur(function(event) {
-// 		    $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=0.5');
-// 		});
-		$('label[validate]').each(function(){
-			$(this).hide();
-		});
-		
-		
-		var bridegroomX = $('#ring').left() - $('#bridegroom').right();
-		var brideX =  $('#ring').right() - $('#bride').left();
-		
-		components.section2.bridegroom = anime({
-			targets : document.getElementById('bridegroom'),
-			translateX : [ {
-				value : 0,
-				duration : 0
-			}, {
-				value : bridegroomX,
-				duration : 2000
-			} ],
-// 			translateX : '250',
-			easing: 'easeInOutQuart',
-// 			rotate : '1turn',
-//				backgroundColor: '#FFF',
-			duration : 3000,
-			loop : false
-		});
-		
-		
-		var morphing = anime({
-			  targets: '#leg1',
-			  path: [
-			    { value: '70 41 118.574 59.369 111.145 132.631 60.855 84.631 20.426 60.369' },
-			    { value: '70 6 119.574 60.369 100.145 117.631 39.855 117.631 55.426 68.369' }
-			    
-			  ],
-			  easing: 'easeOutQuad',
-			  duration: 2000,
-			  loop: true
-			});
-				
-		components.section2.bride = anime({
-			targets : document.getElementById('bride'),
-//				translateX : [ {
-//					value : brideOri,
-//					duration : 0
-//				}, {
-//					value : brideX,
-//					duration : 3000
-//				} ],
-			complete: function(anim) {
-// 			completedLogEl.value = 'completed : ' + anim.completed;
-				$('#ring').show();
-			},
-// 			rotate : '1turn'    ,
-//		  		backgroundColor: '#FFF',
-//	 			translateX: 250,
-// 			scale: 2,
- 			translateX : brideX,
-		    easing: 'easeInOutQuart',
-			duration : 3000,
-			loop : false
-		});
-		components.section1.svg_path1 = anime({
-			  targets: '#path_title',
-			  strokeDashoffset: [anime.setDashoffset, 0],
-			  easing: 'easeInOutSine',
-			  duration: 5000,
-			  delay: function(el, i) { return i * 1000 },
-			  direction: 'alternate',
-			  loop: false
-		});
-		components.section1.svg_date1 = anime({
-			  targets: '#path_date',
-			  strokeDashoffset: [anime.setDashoffset, 0],
-			  easing: 'easeInOutSine',
-			  duration: 5000,
-			  delay: function(el, i) { return i * 1000 },
-			  direction: 'alternate',
-			  loop: false
-		});
-		
-		var loadingInput = document.querySelector('#loading input');
-		var domAttributes = anime({
-			  targets: '#loading input',
-			  value: '100%',
-			  round: 1,
-			  duration: 2000,
-			  update: function(anim) {
-				  loadingInput.value =  Math.round(anim.progress) + '%';
-				},
-			  complete: function(anim) {
-			    $('#loading').hide();
-			    components.section1.svg_date1.restart();
-			    components.section1.svg_path1.restart();
-			  }
-			});
-// 		var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
-
-				
-		$('input:radio[name="friend-belongs"]').change(function(){
-	        if ($(this).is(':checked') && $(this).val() == 'hannibal') {
-	            $('#hannibal').css("background-image", "url('img/hannibal.png')");
-	            $('#annie').css("background-image", "url('img/annie_.png')");
-	        } else if ($(this).is(':checked') && $(this).val() == 'annie') {
-	        	$('#hannibal').css("background-image", "url('img/hannibal_.png')");
-	        	$('#annie').css("background-image", "url('img/annie.png')");
-	        } 
-	    });
-
-	    $('#name').blur(function(){
-	    	sname = $(this).val();
-		    if (sname.length == 3) {
-		    	sname = sname.substring(1,sname.length);			    
-		    } else if (name.length >= 3) {
-		    	sname = sname.substring(2,sname.length);
-			}
-		    $('span[specific-name]').each(function(){
-				this.innerHTML=sname;
-			});
-		});
-	    
-
-		$('#thanks').hide();
-		$('#postInfo').show();
-
-		$('input[type=text],input[type=tel]').blur(function(){
-			if(isSubmited) {
-				validate();
-			}
-		});
-		
-		$('input[type=radio]').change(function(){
-			if(isSubmited) {
-				validate();
-			}
-		});
-		
-	});
-	var isScale = false;
-	$(document).ready( function() {
-		var a = $('#fullpage').fullpage({
-//				scrollingSpeed: 700,
-// 			autoScrolling: false,
-// 			resetSliders: false,
-//				fadingEffect: true,
-// 				scrollOverflowReset: false,
-// 			scrollBar: true,
-			verticalCentered: true,
-			navigation: false,
-			menu: '#menu',
-			navigationPosition: 'right',
-			navigationTooltips: ['一', '二', '三','四','五','六','七'],
-			afterLoad : function(anchorLink, index) {
-
-// 				if(isScale == true) {
-// 					 $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=0.5');
-// 				}
-				
-				switch (index) {
-				case 1:
-					if ( components.section1.svg_path1 != null ) {
-						components.section1.svg_path1.restart();
-						components.section1.svg_date1.restart();
-					}
-					$('#title').show();
-					break;
-				case 2:
-					$('#ring').hide();
-					components.section2.bride.restart();
-					components.section2.bridegroom.restart();
-					break;
-				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
-					params.church = $('input[name=church]:checked').val();
-					params.weddingDinner = $('input[name=wedding-dinner]:checked').val();
-					if (preIndex == 4) {
-						if(params.weddingDinner == "false" && params.church == "false" ) {
-							$.fn.fullpage.moveTo(7);
-						} 
-					}
-					break;
-				case 6:
-					if (preIndex == 5) {
-						if(params.weddingDinner == "false") {
-							$.fn.fullpage.moveTo(7);
-						}
-					}
-					break;
-				case 7:
-					break;	
-				}
-				preIndex = index;
-			}
-		});
-	});
-
-	function validate() {
-		var isPassed = true;
-		var moveTo = 7;
-		params.name = $('#name').val();
-		params.phone = $('#phone').val();
-		params.friendBelongs=$('input[name=friend-belongs]:checked').val();
-		params.address = $('#address').val();
-		params.church = $('input[name=church]:checked').val();
-		params.weddingDinner = $('input[name=wedding-dinner]:checked').val();
-		params.numberOfParticipants = $('input[name=number-of-participants]:checked').val();
-		params.childSeats = $('input[name=child-seats]:checked').val();
-		params.comments = $('#comments').val();
-		
-		if(params.weddingDinner == undefined) {
-			moveTo = 4;
-			$('#wedding-dinner-validator').show();
-			isPassed = false;
-		} else {
-			$('#wedding-dinner-validator').hide();
-		}
-		if(params.church == undefined) {
-			moveTo = 4;
-			$('#church-validator').show();
-			isPassed = false;
-		} else {
-			$('#church-validator').hide();
-		}
-		if(params.name == '') {
-			moveTo = 3;
-			$('#name').addClass("has-error");
-			isPassed = false;
-		} else {
-			if($('#name').hasClass("has-error")){
-				$('#name').removeClass("has-error");
-			}
-		}
-		if(params.friendBelongs == undefined) {
-			moveTo = 3;
-			$('#friend-belongs-validator').show();
-			isPassed = false;
-		} else {
-			$('#friend-belongs-validator').hide();
-		}
-		if( !isPassed ) {
-			$.fn.fullpage.moveTo(moveTo);
-			return isPassed;
-		} else {
-			if(params.church == "true" || params.weddingDinner == "true") {
-				var isPassed2 = true;
-				if(params.weddingDinner == "true") {
-					if(params.childSeats == undefined) {
-						moveTo = 6;
-						$('#child-seats-validator').show();
-						isPassed2 = false;
-					} else {
-						$('#child-seats-validator').hide();
-					}
-					if(params.numberOfParticipants == undefined) {
-						moveTo = 6;
-						$('#number-of-participants-validator').show();
-						isPassed2 = false;
-					} else {
-						$('#number-of-participants-validator').hide();
-					}
-				} else {
-					$('#child-seats-validator').hide();
-					$('#number-of-participants-validator').hide();
-				}
-				if(params.phone == '') {
-					moveTo = 5;
-					$('#phone').addClass("has-error");
-					isPassed2 = false;
-				} else {
-					if($('#phone').hasClass("has-error")){
-						$('#phone').removeClass("has-error");
-					}
-				}
-				if(params.address == '') {
-					moveTo = 5;
-					$('#address').addClass("has-error");
-					isPassed2 = false;
-				} else {
-					if($('#address').hasClass("has-error")){
-						$('#address').removeClass("has-error");
-					}
-				}
-				if(!isPassed2) {
-					$.fn.fullpage.moveTo(moveTo);
-					return isPassed2;
-				} 
-			} else {
-				if($('#address').hasClass("has-error")){
-					$('#address').removeClass("has-error");
-				}
-				if($('#phone').hasClass("has-error")){
-					$('#phone').removeClass("has-error");
-				}
-				$('#child-seats-validator').hide();
-				$('#number-of-participants-validator').hide();
-			}
-		}
-		return true;
-	}
-	
-	function submitTo(){
-		isSubmited = true;
-		console.log(params);
-		if (validate()) {
-			$('#submitTo').button('loading');
-			$.ajax({
-			  	data : params,
-			  	dataType: 'json',
-			  	method : 'GET',
-			  	url:'https://script.google.com/macros/s/AKfycbyo3xu8-NLPOJQQKQTp36RmyGOMdAzm0KXXfrxTN1Z6lXHndiWh/exec',
-			  	success : function(data, textStatus, jqXHR ) {
-			  		if(data == true || data == "true"){
-						  show();
-					} else {
-						alert('an error has occured');
-						$('#submitTo').button('reset');
-					}
-				},
-				error : function(jqXHR,textStatus,errorThrown){
-					show();
-				}
-			});
-		}
-	}
-	
-	function show() {
-		var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 400px)" );
-		var mq2 = window.matchMedia( "(min-device-width: 400px) and (max-device-width: 736px)" );
-		
-		if(mq.matches) {
-			$('#born_canvas').attr('style','margin-left: -'+ ($(document).width()/2)+'px');
-		}
-		if(mq2.matches) {
-			$('#born_canvas').attr('style','margin-left: -'+ ($(document).width()/3)+'px');
-		}
-		if(params.weddingDinner == "true" || params.church == 'true') {
-			arr_Msg =  sname + '我們八月十九日見！感謝您！';
-		} else {
-			arr_Msg =  sname + '您的資料我們收到了！感謝您！';
-		}
-		
-		$('#submitTo').button('reset');
-		$('#thanks').show();
-		$('#postInfo').hide();
-		init();
-		setHighNumCircles();
-		setGravity();
-		setFade();
-	}
-
-	
-</script>
+<script type="text/javascript" src="js/wedding.js"></script>
 
 </head>
 
 <body>
 
 	<div id="loading" class="text-center">
-		<input class="text-output" value="1">
+		<svg id="loading-svg" width="140" height="140" viewBox="0 0 140 140">
+		  <g fill="none" fill-rule="evenodd">
+			<g fill="currentColor" fill-opacity=".15" transform="translate(0 6)">
+			  <polygon points="70 0 136.574 48.369 111.145 126.631 28.855 126.631 3.426 48.369"></polygon>
+			  <polygon points="70 18 119.455 53.931 100.565 112.069 39.435 112.069 20.545 53.931"></polygon>
+			  <polygon points="70 34.86 101.727 57.911 89.609 95.209 50.391 95.209 38.273 57.911"></polygon>
+			  <polygon points="70 50.898 84.864 61.697 79.186 79.171 60.814 79.171 55.136 61.697"></polygon>
+			</g>
+			<polygon class="polymorph" stroke-width="1" stroke="currentColor" points="70 28.239099984872446 119.32464117736045 60.11964117736044 102.8879470490351 121.37138233959334 53.348588226395556 97.39190001512756 7.665099984872446 55.86515293583734"></polygon>
+		  </g>
+		  <text id="text-out" fill="#FBF38C" text-anchor="middle" x="70" y="75" font-size="24px">0%</text>
+		</svg>
 	</div>  
 	<div id="fullpage">
 		<div class="section" id="section1">
+			<div class="fp-bg"></div>
 			<div class="row" id="title">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 	<!-- 				<img src="img/w1.png" alt="Image description." id="section_1" /> -->
@@ -633,7 +281,7 @@ label[validate] {
 
 		</div>
 		<div class="section" id="section2">
-			
+			<div class="fp-bg"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 					<h1>
@@ -671,6 +319,7 @@ label[validate] {
 			</div>
 		</div>
 		<div class="section" id="section3">
+			<div class="fp-bg"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 				    <h1 class="text-center">請問您是?</h1> 
@@ -703,6 +352,7 @@ label[validate] {
 		</div>
 		
 		<div class="section" id="section4">
+			<div class="fp-bg"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 				    <h1>Hi&nbsp;<span specific-name></span>!請問您8月19日 18:00 是否願意出席晚宴呢??</h1>
@@ -724,7 +374,7 @@ label[validate] {
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:10px;">&nbsp;</div>
+				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:5px;">&nbsp;</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
@@ -753,12 +403,13 @@ label[validate] {
 		</div>
 		
 		<div class="section" id="section5">
+			<div class="fp-bg"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 ">
 				    <h1 class="text-center">麻煩<span specific-name></span>您留下您的聯絡方式!</h1>
 				</div>
 			</div>
-			<div class="row" style="height:50px;"></div>
+			<div class="row" style="height:20px;"></div>
 			<div class="row">
 				<div class="col-xs-3 col-sm-3 col-lg-4">
     				<h2 class="text-right">電話</h2>
@@ -767,7 +418,7 @@ label[validate] {
     				<input type="tel" class="form-control input-lg" id="phone" aria-describedby="emailHelp" placeholder="手機" >
 				</div>
 			</div>
-			<div class="row" style="height:50px;"></div>
+			<div class="row" style="height:20px;"></div>
 			<div class="row">
 				<div class="col-xs-3 col-sm-3 col-lg-4">
     				<h2 class="text-right">地址</h2>
@@ -780,6 +431,7 @@ label[validate] {
 
 		
 		<div class="section" id="section6">
+			<div class="fp-bg"></div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12">
 				    <h1 class="text-center"><span specific-name></span>您當天出席總人數是?(不含兒童座椅)</h1>
@@ -821,7 +473,7 @@ label[validate] {
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:100px;">&nbsp;</div>
+				<div class="col-xs-12 col-sm-12 col-lg-12 text-center" style="height:20px;">&nbsp;</div>
 			</div>
 			
 			
@@ -866,6 +518,7 @@ label[validate] {
 			</div>
 		</div>
 		<div class="section" id="section7">
+			<div class="fp-bg"></div>
 			<div class="row" id="thanks">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 			
@@ -894,7 +547,7 @@ label[validate] {
 				<div class="row" style="height:50px;"></div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-					    <button id="submitTo" type="button" data-loading-text="發送中, 請稍候‧‧‧‧" class="btn btn-lg btn-info" style="font-size: 30px;" onclick="submitTo();">
+					    <button id="submitTo" type="button" data-loading-text="發送中, 請稍候..." class="btn btn-lg btn-info" style="font-size: 30px;" onclick="submitTo();">
 					    	送出
 					    </button>
 					</div>
