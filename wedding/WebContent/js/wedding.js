@@ -59,10 +59,11 @@ preload(
 	"img/hannibal.png"
 )
 
+function getIP(json) {
+	params.ip = json.ip;
+}
+
 $(document).ready( function() {
-	$.get( "//gd.geobytes.com/GetCityDetails?callback=?", function( data ) {
-		params.ip = data.geobytesipaddress;
-	});
 	
 // 		$('input, textarea').blur(function(event) {
 // 		    $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=0.5');
@@ -154,7 +155,7 @@ $(document).ready( function() {
 		  targets: '#text-out',
 		  value: '100%',
 		  round: 1,
-		  duration: 5000,
+		  duration: 6000,
 		  update: function(anim) {
 			  loadingInput.innerHTML =  Math.round(anim.progress) + '%';
 			},
@@ -162,9 +163,10 @@ $(document).ready( function() {
 			  anime({
 				  targets: '#loading-svg',
 				  round: 1,
-				  duration: 1000,
+				  duration: 2000,
 				  update: function(anim) {
-					  $("#loading-svg").css("-webkit-transform","scale("+Math.round(anim.progress)+")")
+					  $("#loading-svg").css("-webkit-transform","scale("+Math.round(anim.progress)+")");
+					  $("#loading").css("opacity", (100 - Math.round(anim.progress)) / 100);
 				  },
 				  complete: function(anim) {
 					$('#loading').remove();
