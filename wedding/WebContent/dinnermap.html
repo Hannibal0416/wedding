@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-btn.css">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtr19cP23ZKZl0BTm9eG7RpfZ_q3VbP9c"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<style type="text/css">
+	html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+</style>
+<script type="text/javascript">
+$(document).ready(function() { 
+	
+	var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
+	var width = null;
+	var showImg = null;
+	var zoom = null;
+	if(mq.matches) {
+		width=30;
+		showImg=50;
+		zoom = 16;
+	} else {
+		width=100;
+		showImg=100;
+		zoom = 18;
+	}
+	var locations = {
+		dinner : new google.maps.LatLng(25.012267,121.46188899999997)
+		, wudoStation : new google.maps.LatLng(25.601992, 121.674925)
+	}
+	
+	var mapOptions = {
+	  center: locations.dinner,
+	  zoom: zoom,
+	  zoomControl: true,
+	  scaleControl: true,
+	  mapTypeControl: false
+	};
+	var map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+	var imgs = {
+			myHome : 'img/dinner/dinner.jpg'
+			, parking : 'img/free-parking.jpg'
+	};
+	var info = {
+			dinner : '<h3>喜宴軒地址：<b>新北市板橋區縣民大道二段3號9樓，麗寶百貨樓上</b></h3><br/><img src="' + imgs.dinner + '" width="'+ showImg + '" height="'+showImg+'" />'
+	};
+	var icons = {
+			dinner : {
+				url:'img/dinner/dinner.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width)
+			}
+			, parking : {
+					url:'img/parking.png',
+					scaledSize: new google.maps.Size(width, width),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(0, width)
+			}
+	};
+	var markers = {
+			dinner : new google.maps.Marker({
+				position: locations.dinner,
+				title: "喜宴軒", 
+				map: map ,
+				animation: google.maps.Animation.BOUNCE,
+				icon: icons.dinner
+			})
+	};
+	var infowindow = new google.maps.InfoWindow();
+	function initialize() {
+		markers.dinner.addListener('click', function() {
+			infowindow.setContent(info.dinner);
+			infowindow.open(map, markers.dinner);
+		});
+	}
+	google.maps.event.addDomListener( window, 'load', initialize);
+});
+</script>
+</head>
+<body>
+	<div id="controlDiv" align="center"></div> 
+	<div id="map-canvas"></div>
+</body>
+</html>

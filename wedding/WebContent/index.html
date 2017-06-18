@@ -12,23 +12,19 @@
 <title>文舜與丞君的婚宴邀請</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-btn.css">
-<!-- <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"> -->
-<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.css"> -->
-<!-- <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css"> -->
 <link rel="stylesheet" type="text/css" href="css/jquery.fullpage.min.css">
-<!-- 	<link rel="stylesheet" type="text/css" href="css/jquery.fancybox.min.css"> -->
+<link rel="stylesheet" type="text/css" href="css/jquery.fancybox.min.css">
 
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="js/jquery.fullpage.min.js"></script>
-<!-- <script type="text/javascript" src="js/jquery.fullpage.extensions.min.js"></script> -->
 <script type="text/javascript" src="js/anim.js"></script>
 <!-- <script type="text/javascript" src="js/rellax.min.js"></script> -->
 <script type="text/javascript" src="js/anime.min.js"></script>
 
 <!-- <script type="text/javascript" src="js/progressbar.min.js"></script> -->
-<!-- <script type="text/javascript" src="js/jquery.fancybox.min.js"></script> -->
+<script type="text/javascript" src="js/jquery.fancybox.min.js"></script>
 
 <style type="text/css">
 /* #section1, #section2 { */
@@ -51,11 +47,6 @@
 /*        url(//fonts.gstatic.com/ea/cwtexyen/v3/cwTeXYen-zhonly.ttf) format('truetype'); */
 /* } */
 @import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
-
-/* all */
-/*.form-control::-webkit-input-placeholder { color:#ecf2e1; font-size:20px;}
-.form-control::-moz-placeholder { color:#ecf2e1; font-size:20px;}  
-.form-control:-ms-input-placeholder { color:#ecf2e1; font-size:20px; }   */
 
 body {
     background-size: cover;
@@ -206,6 +197,9 @@ label[validate] {
  	label { 
 		font-size: 18px !important;
 	}
+	#church-map , #dinner-map {
+		width: 50px;
+	}
 	
 }
 
@@ -273,15 +267,18 @@ label[validate] {
 		background-size: 350px 350px;
 	}
 	label { 
-		font-size: 38px !important;
+		font-size: 30px !important;
+	}
+	
+	#church-map , #dinner-map {
+		width: 70px;
 	}
 	
 }
 
 </style>
-
 <script type="text/javascript" src="js/wedding.js"></script>
-<script type="application/javascript" src="http://ipinfo.io/?format=jsonp&callback=getIP"></script>
+<script type="application/javascript" src="https://ipinfo.io/?format=jsonp&callback=getIP"></script>
 </head>
 
 <body>
@@ -325,8 +322,8 @@ label[validate] {
 						時間：2017/8/19 星期六 18:00<br/>
 						地點：板橋囍宴軒<br/>
 						(新北市板橋區縣民大道二段3號9樓，麗寶百貨樓上)<br/>
-						各位親朋好友，希望有榮幸能邀請您來參加我們的婚禮唷~<br/>
-						再煩請大家花一點小時間回覆喔!!
+						希望有榮幸能邀請您來參加我們的婚禮唷~<br/>
+						再煩請大家花一點時間回覆喔!!
 					</h2>
 				</div>
 			</div>
@@ -391,6 +388,7 @@ label[validate] {
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
 				    <h1>Hi&nbsp;<span specific-name></span>!請問您8月19日 18:00 是否願意出席晚宴呢??</h1>
 				    <h2>新北市板橋區縣民大道二段3號9樓(捷運板橋站1號出口)</h2>
+				    <img id="dinner-map" src="img/google_maps.png"/>
 				</div>
 			</div>
 			<div class="row">
@@ -412,8 +410,9 @@ label[validate] {
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-lg-12 text-center">
-				    <h1><span specific-name></span>您是否有興趣於8月19日 14:00 參加教會證婚儀式呢?</h1>
+				    <h1><span specific-name></span>您8月19日 14:00是否想參加教會結婚典禮呢?</h1>
 				    <h2>新北市新店區中央路三街15號(捷運小碧潭站2號出口)</h2>
+				    <img id="church-map" src="img/google_maps.png"/>
 				</div>
 			</div>
 			<div class="row">

@@ -71,7 +71,7 @@ $(document).ready( function() {
 	$('label[validate]').each(function(){
 		$(this).hide();
 	});
-	
+	$('#title').hide();
 	
 	var bridegroomX = $('#ring').left() - $('#bridegroom').right();
 	var brideX =  $('#ring').right() - $('#bride').left();
@@ -155,7 +155,8 @@ $(document).ready( function() {
 		  targets: '#text-out',
 		  value: '100%',
 		  round: 1,
-		  duration: 6000,
+//		  duration: 6000,
+		  duration: 1000,
 		  update: function(anim) {
 			  loadingInput.innerHTML =  Math.round(anim.progress) + '%';
 			},
@@ -163,15 +164,18 @@ $(document).ready( function() {
 			  anime({
 				  targets: '#loading-svg',
 				  round: 1,
-				  duration: 2000,
+//				  duration: 2000,
+				  duration: 1000,
 				  update: function(anim) {
 					  $("#loading-svg").css("-webkit-transform","scale("+Math.round(anim.progress)+")");
 					  $("#loading").css("opacity", (100 - Math.round(anim.progress)) / 100);
 				  },
 				  complete: function(anim) {
 					$('#loading').remove();
+					$('#title').show();
 				    components.section1.svg_date1.restart();
 				    components.section1.svg_path1.restart();
+				    
 				  }
 				});
 		  }
@@ -229,6 +233,41 @@ $(document).ready( function() {
 		}
 	});
 	
+	$('#dinner-map').click(function(){
+		$.fancybox.open({
+			src : 'dinnermap.html',
+			type : 'iframe',
+			title : '晚宴地圖資訊'
+		},{
+			padding: 0,
+			openEffect : 'elastic',
+			openSpeed  : 150,
+			closeEffect : 'elastic',
+			closeSpeed  : 150,
+			closeClick : true,
+			helpers : {
+				overlay : null
+			}
+		});
+	});
+	$('#church-map').click(function(){
+		$.fancybox.open({
+			src : 'churchmap.html',
+			type : 'iframe',
+			title : '教會地圖資訊'
+		},{
+			padding: 0,
+			openEffect : 'elastic',
+			openSpeed  : 150,
+			closeEffect : 'elastic',
+			closeSpeed  : 150,
+			closeClick : true,
+			helpers : {
+				overlay : null
+			}
+		});
+	});
+	
 });
 var isScale = false;
 $(document).ready( function() {
@@ -245,7 +284,7 @@ $(document).ready( function() {
 		navigationPosition: 'right',
 		navigationTooltips: ['一', '二', '三','四','五','六','七'],
 		onLeave: function(index, nextIndex, direction){
-			$('h1,h2,h3,label,input').css("opacity","0");
+			$('h1,h2,h3,label,input,#section4 img ').css("opacity","0");
 		},
 		afterLoad : function(anchorLink, index) {
 
@@ -255,7 +294,6 @@ $(document).ready( function() {
 					components.section1.svg_path1.restart();
 					components.section1.svg_date1.restart();
 				}
-				$('#title').show();
 				break;
 			case 2:
 				$('#ring').hide();
@@ -271,7 +309,7 @@ $(document).ready( function() {
 				anime(animeInput);
 				break;
 			case 4:
-				animeInput.targets = '#section4 h1,#section4 h2,#section4 input, #section4 label';
+				animeInput.targets = '#section4 h1,#section4 h2,#section4 input, #section4 label, #section4 img';
 				anime(animeInput);
 				break;
 			case 5:
