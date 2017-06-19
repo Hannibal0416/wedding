@@ -91,7 +91,7 @@ $(document).ready(function() {
 	var showImg = null;
 	var zoom = null;
 	if(mq.matches) {
-		width=30;
+		width=50;
 		showImg=50;
 		zoom = 16;
 	} else {
@@ -102,7 +102,7 @@ $(document).ready(function() {
 	
 	var locations = {
 		dinner : new google.maps.LatLng(25.012267,121.46188899999997)
-		, car1 : new google.maps.LatLng(25.007547797242992, 121.45941495895386)
+		, fromTucheng : new google.maps.LatLng(25.0086367, 121.4594149)
 	}
 	
 	var mapOptions = {
@@ -142,8 +142,8 @@ $(document).ready(function() {
 				animation: google.maps.Animation.BOUNCE,
 				icon: icons.dinner
 			})
-			, car1 : new google.maps.Marker({
-				position: locations.car1,
+			, fromTucheng : new google.maps.Marker({
+				position: locations.fromTucheng,
 				title: "car", 
 				map: map ,
 				animation: google.maps.Animation.DROP,
@@ -156,72 +156,59 @@ $(document).ready(function() {
 			infowindow.setContent(info.dinner);
 			infowindow.open(map, markers.dinner);
 		});
-// 		var customControlDiv = document.createElement('div');
-// 		customControlDiv.width = $(document).width();
-// 		//customControl(document.getElementById('controlDiv'), map);
-// 		var customControl = new CustomControl(customControlDiv, map);
-// 		customControlDiv.index = 1;
-// 		map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
 	}
 
 	google.maps.event.addDomListener( window, 'load', initialize);
-// 	google.maps.event.addDomListener( window, 'load', initMenu);
-	function CustomControl(controlDiv, map) {
-// 		var menuWrapper = document.createElement('div');
-// 		var menuWrapper = $('<div>').attr({id:'menu-icon-wrapper', 'class':'menu-icon-wrapper','style':'visibility: hidden'});
-// 		menuWrapper.load('svg/menu.svg');
-// 		var dummy = $('<div>').attr({id:'dummy', 'class':'dummy'});
-// 		var dummyItem = $('<div>').attr('class','dummy__item');
-// 		dummyItem.get(0).innerHTML='321321';
-// 		dummy.append(dummyItem);
-// 		$(controlDiv).append(menuWrapper).append(dummy);
-		
-	}
 
 	google.maps.event.addListener(map, 'click', function(me) {
         var result = [me.latLng.lat(), me.latLng.lng()];
         console.log(result);
     });
-
-	$('#car1').click(function(){
-		//x右上，左上，右上, 右下,左下,右下
-		var locs = [
-					[25.007547797242992, 121.45941495895386],
-					[25.011398056881244, 121.46194696426392], 
-					[25.011398056881244, 121.46194696426392],
-					[25.01384815925765, 121.4623761177063],
-					[25.01384815925765, 121.4623761177063],
-					[25.01384815925765, 121.4623761177063]
-				  ];
-// 		for(var i = 0 ; i < 3 ; i++) {
-// 			transition(locs[i],locs[i+1]);
-// 		}
-		transition(locs[0],locs[1]);
-	});
- 	var numDeltas = 100;
+	var fromTucheng = [
+// 						[25.0086367, 121.4594149],
+// 						[25.0110, 121.4618], 
+// 						[25.012662004687744, 121.46010160446167],
+						[25.013696291560976, 121.46118741841542],
+						[25.013624540829912, 121.46209180355072],
+// 						[25.013624540829912, 121.4622312784195]
+					  ];
+	var fromTuchengClone = null;
+	var numDeltas = 10;
     var delay = 10; //milliseconds
     var i = 0;
     var deltaLat;
     var deltaLng;
-	function transition(result,location){
+    var progress = 0;
+	$('#fromTucheng').click(function(){
+		//x右上，左上，右上, 右下,左下,右下
+		progress=0;
+		console.log(locations.fromTucheng.lat());
+		markers.fromTucheng.setPosition(locations.fromTucheng);
+		fromTuchengClone = fromTucheng.slice();
+		transition(fromTuchengClone[progress],fromTuchengClone[++progress]);
+	});
+ 	
+	function transition(from,to){
         i = 0;
-        deltaLat = (result[0] - location[0])/numDeltas;
-        deltaLng = (result[1] - location[1])/numDeltas;
-        moveMarker(result);
+        deltaLat = (to[0] - from[0])/numDeltas;
+        deltaLng = (to[1] - from[1])/numDeltas;
+        moveMarker(from);
     }
 
-	 function moveMarker(result){
-		var lat = result[0];
-		var lng = result[1];
-		lat += deltaLat;
-        lng += deltaLng;
-        var latlng = new google.maps.LatLng(lat, lng);
-        markers.car1.setPosition(latlng);
+	 function moveMarker(from){
+		 from[0] += deltaLat;
+		 from[1] += deltaLng;
+        var latlng = new google.maps.LatLng(from[0], from[1]);
+        markers.fromTucheng.setPosition(latlng);
         if(i!=numDeltas){
             i++;
             setTimeout(function() {
-            	moveMarker(result);
+            	moveMarker(from);
             }, delay);
+        } else {
+        	if(progress+1 < fromTucheng.length) {
+        		transition(fromTuchengClone[progress],fromTuchengClone[++progress]);
+        	} 
         }
     }
 	
@@ -244,7 +231,7 @@ $(document).ready(function() {
 			<button id="menu-icon-trigger" class="menu-icon-trigger"></button>
 		</div>
 		<div id="dummy" class="dummy">
-			<div class="dummy__item" id="car1">開車:從土城</div>
+			<div class="dummy__item" id="fromTucheng">開車:從土城</div>
 			<div class="dummy__item">開車:從64</div>
 			<div class="dummy__item">開車:從中和</div>
 			<div class="dummy__item">12123123123123</div>
