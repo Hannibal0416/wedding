@@ -1,0 +1,90 @@
+/* Menu icon styles */
+
+.menu-icon-wrapper {
+	position: relative;
+	display: inline-block;
+    width: 128px;
+    height: 128px;
+	margin: 3px;
+	pointer-events: none;
+	transition: 0.1s;
+}
+
+.menu-icon-wrapper.scaled {
+	-webkit-transform: scale(0.5);
+	-ms-transform: scale(0.5);
+	transform: scale(0.5);
+}
+
+.menu-icon-wrapper svg {
+	position: absolute;
+	top: -132px;
+	left: -132px;
+	-webkit-transform: scale(0.4);
+	-ms-transform: scale(0.4);
+	transform: scale(0.4);
+	-webkit-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	transform-origin: 0 0;
+}
+
+.menu-icon-wrapper svg path {
+	stroke: #ff0000;
+	stroke-width: 60px;
+	stroke-linecap: round;
+    stroke-linejoin: round;
+	fill: transparent;
+}
+
+.menu-icon-wrapper .menu-icon-trigger {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	pointer-events: auto;
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+.menu-icon-wrapper .menu-icon-trigger:hover,
+.menu-icon-wrapper .menu-icon-trigger:focus {
+	outline: none;
+}
+
+
+@media screen and (min-device-width: 320px) and (max-device-width: 736px) {
+	.menu-icon-wrapper {
+	    width: 64px;
+	    height: 64px;
+	}
+	.menu-icon-wrapper svg {
+		top: -66px;
+		left: -66px;
+		-webkit-transform: scale(0.2);
+		-ms-transform: scale(0.2);
+		transform: scale(0.2);
+	}
+	#controlDiv {
+	  	font-size : 24px;
+	}
+}
+
+@media screen and (min-device-width: 736px) {
+	.menu-icon-wrapper {
+	    width: 96px;
+	    height: 96px;
+	}
+	.menu-icon-wrapper svg {
+		top: -99px;
+		left: -99px;
+		-webkit-transform: scale(0.3);
+		-ms-transform: scale(0.3);
+		transform: scale(0.3);
+	}
+	#controlDiv {
+	  	width:200px; 
+	}
+	
+}
