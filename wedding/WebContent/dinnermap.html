@@ -142,13 +142,7 @@ $(document).ready(function() {
 				animation: google.maps.Animation.BOUNCE,
 				icon: icons.dinner
 			})
-			, fromTucheng : new google.maps.Marker({
-				position: locations.fromTucheng,
-				title: "car", 
-				map: map ,
-				animation: google.maps.Animation.DROP,
-				icon: icons.car
-			})
+			, fromTucheng : null
 	};
 	var infowindow = new google.maps.InfoWindow();
 	function initialize() {
@@ -173,7 +167,7 @@ $(document).ready(function() {
 // 						[25.013624540829912, 121.4622312784195]
 					  ];
 	var fromTuchengClone = null;
-	var numDeltas = 10;
+	var numDeltas = 100;
     var delay = 10; //milliseconds
     var i = 0;
     var deltaLat;
@@ -183,31 +177,52 @@ $(document).ready(function() {
 		//x右上，左上，右上, 右下,左下,右下
 		progress=0;
 		console.log(locations.fromTucheng.lat());
-		markers.fromTucheng.setPosition(locations.fromTucheng);
-		fromTuchengClone = fromTucheng.slice();
-		transition(fromTuchengClone[progress],fromTuchengClone[++progress]);
+		if(markers.fromTucheng != null) {
+			markers.fromTucheng.setMap(null);
+			delete markers.fromTucheng;
+			markers.fromTucheng = new google.maps.Marker({
+				position: locations.fromTucheng,
+				title: "car", 
+				map: map ,
+				animation: google.maps.Animation.DROP,
+				icon: icons.car
+			});
+		} else {
+			markers.fromTucheng = new google.maps.Marker({
+				position: locations.fromTucheng,
+				title: "car", 
+				map: map ,
+				animation: google.maps.Animation.DROP,
+				icon: icons.car
+			});
+		}
+		
+// 		map.setCenter(locations.fromTucheng);
+		console.log(locations.fromTucheng.lat() + ':' +locations.fromTucheng.lng());
+		fromTuchengClone = fromTucheng.slice(0);
+		transition(fromTuchengClone[progress],fromTuchengClone[++progress],markers.fromTucheng);
 	});
  	
-	function transition(from,to){
+	function transition(from,to,marker){
         i = 0;
         deltaLat = (to[0] - from[0])/numDeltas;
         deltaLng = (to[1] - from[1])/numDeltas;
-        moveMarker(from);
+        moveMarker(from,marker);
     }
 
-	 function moveMarker(from){
+	 function moveMarker(from,marker){
 		 from[0] += deltaLat;
 		 from[1] += deltaLng;
         var latlng = new google.maps.LatLng(from[0], from[1]);
-        markers.fromTucheng.setPosition(latlng);
+        marker.setPosition(latlng);
         if(i!=numDeltas){
             i++;
             setTimeout(function() {
-            	moveMarker(from);
+            	moveMarker(from,marker);
             }, delay);
         } else {
         	if(progress+1 < fromTucheng.length) {
-        		transition(fromTuchengClone[progress],fromTuchengClone[++progress]);
+        		transition(fromTuchengClone[progress],fromTuchengClone[++progress],marker);
         	} 
         }
     }
