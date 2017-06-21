@@ -26,11 +26,14 @@ $(document).ready(function() {
 	var width = null;
 	var showImg = null;
 	var zoom = null;
+	var carWidth = null;
 	if(mq.matches) {
 		width=50;
 		showImg=50;
+		carWidth=30
 		zoom = 17;
 	} else {
+		carWidth = 50
 		width=60;
 		showImg=60;
 		zoom = 18;
@@ -38,6 +41,7 @@ $(document).ready(function() {
 	
 	var locations = {
 		church : new google.maps.LatLng(24.973697267236705, 121.52916848659515)
+		, parking : new google.maps.LatLng(24.974164100342353, 121.53420567512512)
 	}
 	
 	var mapOptions = {
@@ -50,10 +54,9 @@ $(document).ready(function() {
 	var map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
 	var imgs = {
 			church : 'img/church.jpg'
-			, parking : 'img/free-parking.jpg'
 	};
 	var info = {
-			church : '<b>地址：新北市新店區中央三街15號<br/>捷運:小碧潭站1號出口(請儘量搭乘大眾運輸工具，感謝您)</b>'
+			church : '<b>地址：新北市新店區中央三街15號<br/>捷運:小碧潭站2號出口(請儘量搭乘大眾運輸工具，感謝您)<br/>停車:請至新店高中地下停車場<br/></b>'
 	};
 	var icons = {
 			church : {
@@ -64,9 +67,15 @@ $(document).ready(function() {
 			}
 			, car : {
 					url:'img/car.png',
-					scaledSize: new google.maps.Size(width, width),
+					scaledSize: new google.maps.Size(carWidth, carWidth),
 					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(0, width),
+					anchor: new google.maps.Point(0, carWidth),
+			}
+			, parking : {
+				url:'img/parking.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
 			}
 	};
 	var markers = {
@@ -78,6 +87,13 @@ $(document).ready(function() {
 				icon: icons.church
 			})
 			, car : null
+			, parking : new google.maps.Marker({
+				position: locations.parking,
+				title: "新店高中停車場", 
+				map: map ,
+// 				animation: google.maps.Animation.BOUNCE,
+				icon: icons.parking
+			})
 	};
 	var infowindow = new google.maps.InfoWindow();
 	function initialize() {
@@ -109,6 +125,7 @@ $(document).ready(function() {
 		];
 		fromZhonghe = [
 			[24.981720714776568, 121.53375506401062,'car'],
+			[24.97814183556767, 121.5340393781662,'car'],
 			[24.975671570148986, 121.53548240661621,'car'],
 			[24.974164100342353, 121.53420567512512,'car'],
 			[24.973736170063177, 121.53388917446136,'walk'],
@@ -125,6 +142,7 @@ $(document).ready(function() {
     var deltaLng;
     var progress = 0;
 	var timeout = null;
+	var path = null;
     function reset() {
     	$('#menu-icon-trigger').click();
     	if(timeout != null) {
@@ -136,6 +154,10 @@ $(document).ready(function() {
 			markers.car.setMap(null);
 			delete markers.car;
 		}
+		if(path != null) {
+    		path.setMap(null);
+    		delete path;
+    	}
 		markers.car = new google.maps.Marker({
 // 			position: locations[0],
 			title: "car", 
@@ -146,11 +168,41 @@ $(document).ready(function() {
     }
 	$('#fromSuperHighway').click(function(){
 		reset();
+		
+		var fromSuperHighwayPath = [];
+		for(var j in fromSuperHighway) {
+			var obj = {lat : fromSuperHighway[j][0], lng : fromSuperHighway[j][1]};
+			fromSuperHighwayPath.push(obj);
+		}
+		
+		path = new google.maps.Polyline({
+          path: fromSuperHighwayPath,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+		path.setMap(map);
+		
 		transition(fromSuperHighway[progress],fromSuperHighway[++progress],markers.car,fromSuperHighway);
 	});
 
 	$('#fromZhonghe').click(function(){
 		reset();
+		var fromZhonghePath = [];
+		for(var j in fromZhonghe) {
+			var obj = {lat : fromZhonghe[j][0], lng : fromZhonghe[j][1]};
+			fromZhonghePath.push(obj);
+		}
+		
+		path = new google.maps.Polyline({
+          path: fromZhonghePath,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+		path.setMap(map);
 		transition(fromZhonghe[progress],fromZhonghe[++progress],markers.car,fromZhonghe);
 	});
 
@@ -160,33 +212,33 @@ $(document).ready(function() {
 		if(lat > 0 && lng > 0) {
 			marker.setIcon({
 					url:'img/'+locations[progress][2]+'-right.png',
-					scaledSize: new google.maps.Size(width, width),
+					scaledSize: new google.maps.Size(carWidth, carWidth),
 					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(0, width),
+					anchor: new google.maps.Point(0, carWidth),
 			});
 		//左
 		} else if (lat < 0 && lng < 0) {
 			marker.setIcon({
 				url:'img/'+locations[progress][2]+'-left.png',
-				scaledSize: new google.maps.Size(width, width),
+				scaledSize: new google.maps.Size(carWidth, carWidth),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width),
+				anchor: new google.maps.Point(0, carWidth),
 			});
 		//上
 		} else if (lat > 0 && lng < 0) {
 			marker.setIcon({
 				url:'img/'+locations[progress][2]+'-up.png',
-				scaledSize: new google.maps.Size(width, width),
+				scaledSize: new google.maps.Size(carWidth, carWidth),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width),
+				anchor: new google.maps.Point(0, carWidth),
 			});
 		// 下
 		} else if (lat < 0 && lng > 0) {
 			marker.setIcon({
 				url:'img/car-down.png',
-				scaledSize: new google.maps.Size(width, width),
+				scaledSize: new google.maps.Size(carWidth, carWidth),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width),
+				anchor: new google.maps.Point(0, carWidth),
 			});
 		}
 		

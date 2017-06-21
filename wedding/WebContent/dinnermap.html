@@ -28,11 +28,14 @@ $(document).ready(function() {
 	var width = null;
 	var showImg = null;
 	var zoom = null;
+	var carWidth = null;
 	if(mq.matches) {
 		width=50;
 		showImg=50;
+		carWidth=30
 		zoom = 17;
 	} else {
+		carWidth = 50
 		width=60;
 		showImg=60;
 		zoom = 18;
@@ -59,16 +62,16 @@ $(document).ready(function() {
 	};
 	var icons = {
 			dinner : {
-				url:'img/dinner/dinner.png',
+				url:'img/dinner.png',
 				scaledSize: new google.maps.Size(width, width),
 				origin: new google.maps.Point(0, 0),
 				anchor: new google.maps.Point(0, width)
 			}
 			, car : {
 					url:'img/car.png',
-					scaledSize: new google.maps.Size(width, width),
+					scaledSize: new google.maps.Size(carWidth, carWidth),
 					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(0, width),
+					anchor: new google.maps.Point(0, carWidth),
 			}
 	};
 	var markers = {
@@ -102,27 +105,27 @@ $(document).ready(function() {
 	function initLatLng(){
 		fromTucheng = [
 				[25.0086367, 121.4594149],
-				[25.0110, 121.4618], 
+				[25.01137861142879, 121.46200060844421], 
 				[25.012662004687744, 121.46010160446167],
-				[25.013996291560976, 121.46118741841542],
-				[25.01350787018421, 121.46204888820648],
-				[25.012739099199, 121.46186993846893],
-				[25.012657143374945, 121.46215617656708]
+				[25.014149557363776, 121.46138906478882],
+				[25.01364884720048, 121.46219909191132],
+				[25.01304118649288, 121.46181419491768],
+				[25.012687526576766, 121.4621514827013]
 		];
 		from64 = [
 			[25.015510700886296, 121.46667838096619],
 			[25.01467457165288, 121.46547675132751],
 			[25.015675981572397, 121.46387279033661],
-			[25.012739099199, 121.46186993846893],
-			[25.012657143374945, 121.46215617656708]
+			[25.01304118649288, 121.46181419491768],
+			[25.012687526576766, 121.4621514827013]
 		];
 		fromZhonghe = [
 			[25.011529313604942, 121.46472573280334],
 			[25.012890486172058, 121.4634382724762],
 			[25.01458706942725, 121.46562695503235],
 			[25.015675981572397, 121.46387279033661],
-			[25.012739099199, 121.46186993846893],
-			[25.012657143374945, 121.46215617656708]
+			[25.01304118649288, 121.46181419491768],
+			[25.012687526576766, 121.4621514827013]
 		];
 	}
     
@@ -133,11 +136,16 @@ $(document).ready(function() {
     var deltaLng;
     var progress = 0;
 	var timeout = null;
+	var path = null;
     function reset() {
     	$('#menu-icon-trigger').click();
     	if(timeout != null) {
     		clearTimeout(timeout);
         }
+    	if(path != null) {
+    		path.setMap(null);
+    		delete path;
+    	}
     	progress=0;
 		initLatLng();
 		if(markers.car != null ) {
@@ -152,17 +160,61 @@ $(document).ready(function() {
 			icon: icons.car
 		});
     }
+    
 	$('#fromTucheng').click(function(){
 		reset();
+		var fromTuchengPath = [];
+		for(var j in fromTucheng) {
+			var obj = {lat : fromTucheng[j][0],lng:fromTucheng[j][1]};
+			fromTuchengPath.push(obj);
+		}
+		
+		path = new google.maps.Polyline({
+          path: fromTuchengPath,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+		path.setMap(map);
 		transition(fromTucheng[progress],fromTucheng[++progress],markers.car,fromTucheng);
 	});
 	$('#from64').click(function(){
 		reset();
+		var from64Path = [];
+		for(var j in from64) {
+			var obj = {lat : from64[j][0],lng:from64[j][1]};
+			from64Path.push(obj);
+		}
+		
+		path = new google.maps.Polyline({
+          path: from64Path,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+		path.setMap(map);
 		transition(from64[progress],from64[++progress],markers.car,from64);
 	});
 
 	$('#fromZhonghe').click(function(){
 		reset();
+		var fromZhonghePath = [];
+		for(var j in from64) {
+			var obj = {lat : fromZhonghe[j][0],lng:fromZhonghe[j][1]};
+			fromZhonghePath.push(obj);
+		}
+		
+		path = new google.maps.Polyline({
+          path: fromZhonghePath,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+		path.setMap(map);
 		transition(fromZhonghe[progress],fromZhonghe[++progress],markers.car,fromZhonghe);
 	});
 
@@ -172,33 +224,33 @@ $(document).ready(function() {
 		if(lat > 0 && lng > 0) {
 			marker.setIcon({
 					url:'img/car-right.png',
-					scaledSize: new google.maps.Size(width, width),
+					scaledSize: new google.maps.Size(carWidth, carWidth),
 					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(0, width),
+					anchor: new google.maps.Point(0, carWidth),
 			});
 		//左
 		} else if (lat < 0 && lng < 0) {
 			marker.setIcon({
 				url:'img/car-left.png',
-				scaledSize: new google.maps.Size(width, width),
+				scaledSize: new google.maps.Size(carWidth, carWidth),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width),
+				anchor: new google.maps.Point(0, carWidth),
 			});
 		//上
 		} else if (lat > 0 && lng < 0) {
 			marker.setIcon({
 				url:'img/car-up.png',
-				scaledSize: new google.maps.Size(width, width),
+				scaledSize: new google.maps.Size(carWidth, carWidth),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width),
+				anchor: new google.maps.Point(0, carWidth),
 			});
 		// 下
 		} else if (lat < 0 && lng > 0) {
 			marker.setIcon({
 				url:'img/car-down.png',
-				scaledSize: new google.maps.Size(width, width),
+				scaledSize: new google.maps.Size(carWidth, carWidth),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width),
+				anchor: new google.maps.Point(0, carWidth),
 			});
 		}
 		
