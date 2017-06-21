@@ -56,7 +56,17 @@ function preload() {
 }
 preload(
 	"img/annie.png",
-	"img/hannibal.png"
+	"img/hannibal.png",
+	"img/church.png",
+	"img/dinner.png",
+	"img/car-down.png",
+	"img/car-left.png",
+	"img/car-right.png",
+	"img/car-up.png",
+	"img/walk-down.png",
+	"img/walk-left.png",
+	"img/walk-right.png",
+	"img/walk-up.png"
 )
 
 function getIP(json) {
