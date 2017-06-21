@@ -165,8 +165,7 @@ $(document).ready( function() {
 		  targets: '#text-out',
 		  value: '100%',
 		  round: 1,
-//		  duration: 6000,
-		  duration: 1000,
+		  duration: 6000,
 		  update: function(anim) {
 			  loadingInput.innerHTML =  Math.round(anim.progress) + '%';
 			},
@@ -174,8 +173,7 @@ $(document).ready( function() {
 			  anime({
 				  targets: '#loading-svg',
 				  round: 1,
-//				  duration: 2000,
-				  duration: 1000,
+				  duration: 2000,
 				  update: function(anim) {
 					  $("#loading-svg").css("-webkit-transform","scale("+Math.round(anim.progress)+")");
 					  $("#loading").css("opacity", (100 - Math.round(anim.progress)) / 100);
