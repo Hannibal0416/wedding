@@ -4,83 +4,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-btn.css">
-<!-- <link rel="stylesheet" type="text/css" href="css/demo.css" /> -->
 <link rel="stylesheet" type="text/css" href="css/component.css" />
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtr19cP23ZKZl0BTm9eG7RpfZ_q3VbP9c"></script>
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/segment.min.js"></script>
 <script type="text/javascript" src="js/ease.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
+
 <style type="text/css">
 @import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
 html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
- 
-body {
-	background-color : blue;
-}
-
-.dummy__item {
- 	height: 2em; 
-	margin: 5px 1px;
-/* 	pointer-events: none; */
-	border-radius: 4px;
-	background: rgba(0, 0, 0, 0.4);
-	-webkit-transition: -webkit-transform 0.5s;
-	transition: transform 0.5s;
-	-webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
-	transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
-}
-
-.dummy__item {
-	-webkit-transform: translate3d(-100%, 0, 0) translate3d(-2em, 0, 0) scale3d(0.5, 1, 1);
-	transform: translate3d(-100%, 0, 0) translate3d(-2em, 0, 0) scale3d(0.5, 1, 1);
-	-webkit-transform-origin: 100% 50%;
-	transform-origin: 100% 50%;
-}
-
-.dummy--active .dummy__item {
-	-webkit-transition-timing-function: cubic-bezier(0.56, 1.19, 0.2, 1.05);
-	transition-timing-function: cubic-bezier(0.56, 1.19, 0.2, 1.05);
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-}
-
-.dummy__item:nth-child(4),
-.dummy--active .dummy__item:first-child {
-	-webkit-transition-delay: 0.05s;
-	transition-delay: 0.05s;
-}
-
-.dummy__item:nth-child(3),
-.dummy--active .dummy__item:nth-child(2) {
-	-webkit-transition-delay: 0.1s;
-	transition-delay: 0.1s;
-}
-
-.dummy__item:nth-child(2),
-.dummy--active .dummy__item:nth-child(3) {
-	-webkit-transition-delay: 0.15s;
-	transition-delay: 0.15s;
-}
-
-.dummy__item:first-child,
-.dummy--active .dummy__item:nth-child(4) {
-	-webkit-transition-delay: 0.2s;
-	transition-delay: 0.2s;
-}
-
-#controlDiv {
- 	position: fixed; 
- 	z-index : 99; 
- 	font-family: 'Noto Sans TC';
- 	color: #FFF;
-}
-
 </style>
+
 <script type="text/javascript">
 //https://tympanus.net/codrops/2015/11/12/animating-svg-menu-icon-segment/
 //http://jsfiddle.net/rcravens/RFHKd/13/
@@ -93,16 +29,15 @@ $(document).ready(function() {
 	if(mq.matches) {
 		width=50;
 		showImg=50;
-		zoom = 16;
+		zoom = 17;
 	} else {
-		width=100;
-		showImg=100;
+		width=60;
+		showImg=60;
 		zoom = 18;
 	}
 	
 	var locations = {
 		dinner : new google.maps.LatLng(25.012267,121.46188899999997)
-		, fromTucheng : new google.maps.LatLng(25.0086367, 121.4594149)
 	}
 	
 	var mapOptions = {
@@ -118,7 +53,7 @@ $(document).ready(function() {
 			, parking : 'img/free-parking.jpg'
 	};
 	var info = {
-			dinner : '<h3>喜宴軒地址：<b>新北市板橋區縣民大道二段3號9樓，麗寶百貨樓上</b></h3><br/><img src="' + imgs.dinner + '" width="'+ showImg + '" height="'+showImg+'" />'
+			dinner : '<b>地址：新北市板橋區縣民大道二段3號9樓(麗寶百貨樓上)<br/>捷運:板橋站1號出口(請儘量搭乘大眾運輸工具，感謝您)</b>'
 	};
 	var icons = {
 			dinner : {
@@ -131,7 +66,7 @@ $(document).ready(function() {
 					url:'img/car.png',
 					scaledSize: new google.maps.Size(width, width),
 					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(0, width)
+					anchor: new google.maps.Point(0, width),
 			}
 	};
 	var markers = {
@@ -142,7 +77,7 @@ $(document).ready(function() {
 				animation: google.maps.Animation.BOUNCE,
 				icon: icons.dinner
 			})
-			, fromTucheng : null
+			, car : null
 	};
 	var infowindow = new google.maps.InfoWindow();
 	function initialize() {
@@ -158,76 +93,141 @@ $(document).ready(function() {
         var result = [me.latLng.lat(), me.latLng.lng()];
         console.log(result);
     });
-	var fromTucheng = [
-// 						[25.0086367, 121.4594149],
-// 						[25.0110, 121.4618], 
-// 						[25.012662004687744, 121.46010160446167],
-						[25.013696291560976, 121.46118741841542],
-						[25.013624540829912, 121.46209180355072],
-// 						[25.013624540829912, 121.4622312784195]
-					  ];
-	var fromTuchengClone = null;
+
+	var fromTucheng = null;
+	var from64 = null;
+	var fromZhonghe = null;
+	function initLatLng(){
+		fromTucheng = [
+				[25.0086367, 121.4594149],
+				[25.0110, 121.4618], 
+				[25.012662004687744, 121.46010160446167],
+				[25.013996291560976, 121.46118741841542],
+				[25.01350787018421, 121.46204888820648],
+				[25.012739099199, 121.46186993846893],
+				[25.012657143374945, 121.46215617656708]
+		];
+		from64 = [
+			[25.015510700886296, 121.46667838096619],
+			[25.01467457165288, 121.46547675132751],
+			[25.015675981572397, 121.46387279033661],
+			[25.012739099199, 121.46186993846893],
+			[25.012657143374945, 121.46215617656708]
+		];
+		fromZhonghe = [
+			[25.011529313604942, 121.46472573280334],
+			[25.012890486172058, 121.4634382724762],
+			[25.01458706942725, 121.46562695503235],
+			[25.015675981572397, 121.46387279033661],
+			[25.012739099199, 121.46186993846893],
+			[25.012657143374945, 121.46215617656708]
+		];
+	}
+    
 	var numDeltas = 100;
     var delay = 10; //milliseconds
     var i = 0;
     var deltaLat;
     var deltaLng;
     var progress = 0;
+	var timeout = null;
+    function reset() {
+    	$('#menu-icon-trigger').click();
+    	if(timeout != null) {
+    		clearTimeout(timeout);
+        }
+    	progress=0;
+		initLatLng();
+		if(markers.car != null ) {
+			markers.car.setMap(null);
+			delete markers.car;
+		}
+		markers.car = new google.maps.Marker({
+			position: fromTucheng[0],
+			title: "car", 
+			map: map ,
+// 			animation: google.maps.Animation.DROP,
+			icon: icons.car
+		});
+    }
 	$('#fromTucheng').click(function(){
-		//x右上，左上，右上, 右下,左下,右下
-		progress=0;
-		console.log(locations.fromTucheng.lat());
-		if(markers.fromTucheng != null) {
-			markers.fromTucheng.setMap(null);
-			delete markers.fromTucheng;
-			markers.fromTucheng = new google.maps.Marker({
-				position: locations.fromTucheng,
-				title: "car", 
-				map: map ,
-				animation: google.maps.Animation.DROP,
-				icon: icons.car
+		reset();
+		transition(fromTucheng[progress],fromTucheng[++progress],markers.car,fromTucheng);
+	});
+	$('#from64').click(function(){
+		reset();
+		transition(from64[progress],from64[++progress],markers.car,from64);
+	});
+
+	$('#fromZhonghe').click(function(){
+		reset();
+		transition(fromZhonghe[progress],fromZhonghe[++progress],markers.car,fromZhonghe);
+	});
+
+	function changeIcon(lat,lng,marker){
+// 		if
+		//右
+		if(lat > 0 && lng > 0) {
+			marker.setIcon({
+					url:'img/car-right.png',
+					scaledSize: new google.maps.Size(width, width),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(0, width),
 			});
-		} else {
-			markers.fromTucheng = new google.maps.Marker({
-				position: locations.fromTucheng,
-				title: "car", 
-				map: map ,
-				animation: google.maps.Animation.DROP,
-				icon: icons.car
+		//左
+		} else if (lat < 0 && lng < 0) {
+			marker.setIcon({
+				url:'img/car-left.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
+			});
+		//上
+		} else if (lat > 0 && lng < 0) {
+			marker.setIcon({
+				url:'img/car-up.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
+			});
+		// 下
+		} else if (lat < 0 && lng > 0) {
+			marker.setIcon({
+				url:'img/car-down.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
 			});
 		}
 		
-// 		map.setCenter(locations.fromTucheng);
-		console.log(locations.fromTucheng.lat() + ':' +locations.fromTucheng.lng());
-		fromTuchengClone = fromTucheng.slice(0);
-		transition(fromTuchengClone[progress],fromTuchengClone[++progress],markers.fromTucheng);
-	});
+	}
  	
-	function transition(from,to,marker){
+	function transition(from,to,marker,locations){
         i = 0;
         deltaLat = (to[0] - from[0])/numDeltas;
         deltaLng = (to[1] - from[1])/numDeltas;
-        moveMarker(from,marker);
+        changeIcon(deltaLat,deltaLng,marker);
+        moveMarker(from,marker,locations);
     }
 
-	 function moveMarker(from,marker){
-		 from[0] += deltaLat;
-		 from[1] += deltaLng;
+	 function moveMarker(from,marker,locations){
+		from[0] += deltaLat;
+		from[1] += deltaLng;
         var latlng = new google.maps.LatLng(from[0], from[1]);
         marker.setPosition(latlng);
+        map.setCenter(latlng);
         if(i!=numDeltas){
             i++;
-            setTimeout(function() {
-            	moveMarker(from,marker);
+            timeout = setTimeout(function() {
+            	moveMarker(from,marker,locations);
             }, delay);
         } else {
-        	if(progress+1 < fromTucheng.length) {
-        		transition(fromTuchengClone[progress],fromTuchengClone[++progress],marker);
+        	if(progress+1 < locations.length) {
+        		transition(locations[progress],locations[++progress],marker,locations);
         	} 
         }
     }
 	
-// 	$('#menu-icon-wrapper svg').css("-webkit-transform", "scale(0.3)");
 });
 
 
@@ -247,9 +247,8 @@ $(document).ready(function() {
 		</div>
 		<div id="dummy" class="dummy">
 			<div class="dummy__item" id="fromTucheng">開車:從土城</div>
-			<div class="dummy__item">開車:從64</div>
-			<div class="dummy__item">開車:從中和</div>
-			<div class="dummy__item">12123123123123</div>
+			<div class="dummy__item" id="from64">開車:從64</div>
+			<div class="dummy__item" id="fromZhonghe">開車:從中和</div>
 		</div>
 	</div> 
 	<script type="text/javascript">

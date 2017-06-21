@@ -2,9 +2,248 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="css/component.css" />
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCtr19cP23ZKZl0BTm9eG7RpfZ_q3VbP9c"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/segment.min.js"></script>
+<script type="text/javascript" src="js/ease.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+<style type="text/css">
+@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+</style>
+
+<script type="text/javascript">
+//https://tympanus.net/codrops/2015/11/12/animating-svg-menu-icon-segment/
+//http://jsfiddle.net/rcravens/RFHKd/13/
+$(document).ready(function() { 
+	
+	var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
+	var width = null;
+	var showImg = null;
+	var zoom = null;
+	if(mq.matches) {
+		width=50;
+		showImg=50;
+		zoom = 17;
+	} else {
+		width=60;
+		showImg=60;
+		zoom = 18;
+	}
+	
+	var locations = {
+		church : new google.maps.LatLng(24.973697267236705, 121.52916848659515)
+	}
+	
+	var mapOptions = {
+	  center: locations.church,
+	  zoom: zoom,
+	  zoomControl: true,
+	  scaleControl: true,
+	  mapTypeControl: false
+	};
+	var map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+	var imgs = {
+			church : 'img/church.jpg'
+			, parking : 'img/free-parking.jpg'
+	};
+	var info = {
+			church : '<b>地址：新北市新店區中央三街15號<br/>捷運:小碧潭站1號出口(請儘量搭乘大眾運輸工具，感謝您)</b>'
+	};
+	var icons = {
+			church : {
+				url:'img/church.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width)
+			}
+			, car : {
+					url:'img/car.png',
+					scaledSize: new google.maps.Size(width, width),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(0, width),
+			}
+	};
+	var markers = {
+			church : new google.maps.Marker({
+				position: locations.church,
+				title: "中央浸信會", 
+				map: map ,
+				animation: google.maps.Animation.BOUNCE,
+				icon: icons.church
+			})
+			, car : null
+	};
+	var infowindow = new google.maps.InfoWindow();
+	function initialize() {
+		markers.church.addListener('click', function() {
+			infowindow.setContent(info.church);
+			infowindow.open(map, markers.church);
+		});
+	}
+
+	google.maps.event.addDomListener( window, 'load', initialize);
+
+	google.maps.event.addListener(map, 'click', function(me) {
+        var result = [me.latLng.lat(), me.latLng.lng()];
+        console.log(result);
+    });
+
+	var fromSuperHighway = null;
+	var fromZhonghe = null;
+	function initLatLng(){
+		fromSuperHighway = [
+// 				[24.97062390507113, 121.5277898311615,'car'],
+// 				[24.976225925367405, 121.53199553489685,'car'], 
+// 				[24.974645520127094, 121.53456509113312,'car'],
+// 				[24.974164100342353, 121.53420567512512,'car'],
+// 				[24.973736170063177, 121.53388917446136,'walk'],
+				[24.975102624037522, 121.53120160102844,'walk'],
+				[24.97322556948687, 121.52981758117676,'walk'],
+				[24.973697267236705, 121.52916848659515,'walk']
+		];
+		fromZhonghe = [
+			[24.981720714776568, 121.53375506401062,'car'],
+			[24.975671570148986, 121.53548240661621,'car'],
+			[24.974164100342353, 121.53420567512512,'car'],
+			[24.973736170063177, 121.53388917446136,'walk'],
+			[24.975102624037522, 121.53120160102844,'walk'],
+			[24.97322556948687, 121.52981758117676,'walk'],
+			[24.973697267236705, 121.52916848659515,'walk']
+		];
+	}
+    
+	var numDeltas = 100;
+    var delay = 10; //milliseconds
+    var i = 0;
+    var deltaLat;
+    var deltaLng;
+    var progress = 0;
+	var timeout = null;
+    function reset() {
+    	$('#menu-icon-trigger').click();
+    	if(timeout != null) {
+    		clearTimeout(timeout);
+        }
+    	progress=0;
+		initLatLng();
+		if(markers.car != null ) {
+			markers.car.setMap(null);
+			delete markers.car;
+		}
+		markers.car = new google.maps.Marker({
+// 			position: locations[0],
+			title: "car", 
+			map: map ,
+// 			animation: google.maps.Animation.DROP,
+			icon: icons.car
+		});
+    }
+	$('#fromSuperHighway').click(function(){
+		reset();
+		transition(fromSuperHighway[progress],fromSuperHighway[++progress],markers.car,fromSuperHighway);
+	});
+
+	$('#fromZhonghe').click(function(){
+		reset();
+		transition(fromZhonghe[progress],fromZhonghe[++progress],markers.car,fromZhonghe);
+	});
+
+	function changeIcon(lat,lng,marker,locations){
+// 		if
+		//右
+		if(lat > 0 && lng > 0) {
+			marker.setIcon({
+					url:'img/'+locations[progress][2]+'-right.png',
+					scaledSize: new google.maps.Size(width, width),
+					origin: new google.maps.Point(0, 0),
+					anchor: new google.maps.Point(0, width),
+			});
+		//左
+		} else if (lat < 0 && lng < 0) {
+			marker.setIcon({
+				url:'img/'+locations[progress][2]+'-left.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
+			});
+		//上
+		} else if (lat > 0 && lng < 0) {
+			marker.setIcon({
+				url:'img/'+locations[progress][2]+'-up.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
+			});
+		// 下
+		} else if (lat < 0 && lng > 0) {
+			marker.setIcon({
+				url:'img/car-down.png',
+				scaledSize: new google.maps.Size(width, width),
+				origin: new google.maps.Point(0, 0),
+				anchor: new google.maps.Point(0, width),
+			});
+		}
+		
+	}
+ 	
+	function transition(from,to,marker,locations){
+        i = 0;
+        deltaLat = (to[0] - from[0])/numDeltas;
+        deltaLng = (to[1] - from[1])/numDeltas;
+        changeIcon(deltaLat,deltaLng,marker,locations);
+        moveMarker(from,marker,locations);
+    }
+
+	 function moveMarker(from,marker,locations){
+		from[0] += deltaLat;
+		from[1] += deltaLng;
+        var latlng = new google.maps.LatLng(from[0], from[1]);
+        marker.setPosition(latlng);
+        map.setCenter(latlng);
+        if(i!=numDeltas){
+            i++;
+            timeout = setTimeout(function() {
+            	moveMarker(from,marker,locations);
+            }, delay);
+        } else {
+        	if(progress+1 < locations.length) {
+        		transition(locations[progress],locations[++progress],marker,locations);
+        	} 
+        }
+    }
+	
+});
+
+
+</script>
+
 </head>
 <body>
-
+	 
+	<div id="controlDiv" >
+		<div id="menu-icon-wrapper" class="menu-icon-wrapper" style="visibility: hidden">
+			<svg width="1000px" height="1000px">
+				<path id="pathA" d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+				<path id="pathB" d="M 300 500 L 700 500"></path>
+				<path id="pathC" d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+			</svg>
+			<button id="menu-icon-trigger" class="menu-icon-trigger"></button>
+		</div>
+		<div id="dummy" class="dummy">
+			<div class="dummy__item" id="fromSuperHighway">開車:從國三</div>
+			<div class="dummy__item" id="fromZhonghe">開車:從中和</div>
+		</div>
+	</div> 
+	<script type="text/javascript">
+		initMenu();
+	</script>
+	
+	<div id="map-canvas"></div>
 </body>
 </html>
