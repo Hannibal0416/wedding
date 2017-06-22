@@ -481,14 +481,17 @@ function submitTo(){
 }
 
 function show() {
-	var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 400px)" );
+	var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 374px)" );
+	var mq1 = window.matchMedia( "(min-device-width: 375px) and (max-device-width: 399px)" );
 	var mq2 = window.matchMedia( "(min-device-width: 400px) and (max-device-width: 736px)" );
-	
 	if(mq.matches) {
 		$('#born_canvas').attr('style','margin-left: -'+ ($(document).width()/2)+'px');
 	}
-	if(mq2.matches) {
+	if(mq1.matches) {
 		$('#born_canvas').attr('style','margin-left: -'+ ($(document).width()/3)+'px');
+	}
+	if(mq2.matches) {
+		$('#born_canvas').attr('style','margin-left: -'+ ($(document).width()/4)+'px');
 	}
 	if(params.weddingDinner == "true" || params.church == 'true') {
 		arr_Msg =  sname + '我們八月十九日見！感謝您！';
