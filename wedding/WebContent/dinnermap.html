@@ -33,12 +33,12 @@ $(document).ready(function() {
 		width=50;
 		showImg=50;
 		carWidth=30
-		zoom = 17;
+		zoom = 16;
 	} else {
 		carWidth = 50
 		width=60;
 		showImg=60;
-		zoom = 18;
+		zoom = 17;
 	}
 	
 	var locations = {
@@ -150,6 +150,7 @@ $(document).ready(function() {
     	}
     	progress=0;
 		initLatLng();
+		infowindow.close();
 		if(markers.car != null ) {
 			markers.car.setMap(null);
 			delete markers.car;
