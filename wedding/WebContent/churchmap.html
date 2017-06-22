@@ -49,7 +49,8 @@ $(document).ready(function() {
 	  zoom: zoom,
 	  zoomControl: true,
 	  scaleControl: true,
-	  mapTypeControl: false
+	  mapTypeControl: false,
+	  gestureHandling: 'greedy'
 	};
 	var map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
 	var imgs = {
@@ -63,7 +64,8 @@ $(document).ready(function() {
 				url:'img/church.png',
 				scaledSize: new google.maps.Size(width, width),
 				origin: new google.maps.Point(0, 0),
-				anchor: new google.maps.Point(0, width)
+				anchor: new google.maps.Point(0, width),
+				zIndex: 100
 			}
 			, car : {
 					url:'img/car.png',
@@ -206,6 +208,12 @@ $(document).ready(function() {
 		transition(fromZhonghe[progress],fromZhonghe[++progress],markers.car,fromZhonghe);
 	});
 
+	$('#info').click(function(){
+		infowindow.setContent(info.church);
+		infowindow.open(map, markers.church);
+		map.panTo(locations.church);
+		$('#menu-icon-trigger').click();
+	});
 	function changeIcon(lat,lng,marker,locations){
 // 		if
 		//右
@@ -290,6 +298,7 @@ $(document).ready(function() {
 		<div id="dummy" class="dummy">
 			<div class="dummy__item" id="fromSuperHighway">開車:從國三</div>
 			<div class="dummy__item" id="fromZhonghe">開車:從中和</div>
+			<div class="dummy__item" id="info">相關資訊</div>
 		</div>
 	</div> 
 	<script type="text/javascript">

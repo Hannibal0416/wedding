@@ -250,6 +250,7 @@ $(document).ready( function() {
 			padding: 0,
 			openEffect : 'elastic',
 			openSpeed  : 150,
+			hideOnOverlayClick: false,
 			closeEffect : 'elastic',
 			closeSpeed  : 150,
 			closeClick : true,
