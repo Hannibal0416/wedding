@@ -13,6 +13,8 @@
 .menu-icon-wrapper.scaled {
 	-webkit-transform: scale(0.5);
 	-ms-transform: scale(0.5);
+	-o-transform: scale(0.5);
+	-moz-transform: scale(0.5);
 	transform: scale(0.5);
 }
 
@@ -22,9 +24,13 @@
 	left: -132px;
 	-webkit-transform: scale(0.4);
 	-ms-transform: scale(0.4);
+	-o-transform: scale(0.4);
+	-moz-transform: scale(0.4);
 	transform: scale(0.4);
 	-webkit-transform-origin: 0 0;
 	-ms-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-o-transform-origin: 0 0;
 	transform-origin: 0 0;
 }
 

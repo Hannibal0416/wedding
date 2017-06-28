@@ -17,6 +17,9 @@ var components = {
 		section2 : {
 			bridegroom: null,
 			bride: null
+		},
+		section4 : {
+			googleMap:null
 		}
 }
 
@@ -118,7 +121,7 @@ $(document).ready( function() {
 //		  rotate : '0.5turn',
 //		  loop: true
 //		});
-			
+	
 	components.section2.bride = anime({
 		targets : document.getElementById('bride'),
 //				translateX : [ {
@@ -202,7 +205,16 @@ $(document).ready( function() {
 		});
 // 		var mq = window.matchMedia( "(min-device-width: 320px) and (max-device-width: 736px)" );
 
-			
+	anime({
+		targets : '#section4 img',
+		translateY : '5px',
+		easing: 'easeInOutQuart',
+		direction: 'alternate',
+//		scale: 0.9,
+		loop: true,
+		duration : 500
+	});
+	
 	$('input:radio[name="friend-belongs"]').change(function(){
         if ($(this).is(':checked') && $(this).val() == 'hannibal') {
             $('#hannibal').css("background-image", "url('img/hannibal.png')");
